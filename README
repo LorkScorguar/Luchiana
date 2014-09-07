@@ -1,0 +1,56 @@
+Luchiana is an Artificial Intelligence written in Python
+
+Her goal is to provide
+-speech synthesis
+-speech recognition
+-answer questions in natural language
+-do some action using arduino
+The ultime goal is to use it as a brain for a home, automate all tasks and pilot your home by voice
+
+
+------------------------NOTES------------------------
+Please note that the server only run with Python <3.x
+I provide client in Python3 and Python2
+
+
+------------------------INSTALL------------------------
+To Install prerequisites, launch the installClient.sh if you are one the client
+or installServer.py if you are on the server
+
+------------------------LAUNCH------------------------
+To launch the server:
+cd server
+python3.x LuchianaServer.py
+
+To launch client in Python2.x:
+cd client
+python2.x LuchianaClient.py
+
+To launch client in Python3.x:
+cd client3
+python3.x LuchianaClient.py
+
+
+------------------------USING------------------------
+to use speech recognition, type "p" and press Enter, then speak
+to use speech synthesis, type "Parle!" and press Enter
+
+
+------------------------DEVELOP------------------------
+To add a new module:
+add the import MODULE line in server/Cerveau.py
+write the sentences for using it as describe in server/database/* files
+
+Regex;action type;action;answers
+
+Regex=regex to match
+action type=can be "rep" for quick answer, "bash" or python if an action is needed
+action=if needed, an action to realise
+answers=all possible answers separates by /
+
+Those variables are usable in action:
+%IN%=the "important" value in a sentence according to the brain
+%PHRASE%=the sentence as send by the user
+
+The two above and the one below are available in answers:
+%OUT%=the answer from your module

@@ -1,0 +1,57 @@
+Luchiana est une Intelligence Artificielle écrite en Python
+
+Le but est d'obtenir
+-la synthese vocale
+-la reconnaissance vocale
+-des reponses a des questions posees en langage naturel
+-la réalisation d'action grace a du materiel Arduino
+Le but ultime est de l'utiliser comme un cerveau pour la maison et ainsi automatiser les taches, et tout 
+piloter a la voix
+
+
+------------------------NOTES------------------------
+Il est important de noter que le serveur ne fonctionne qu'avec une version de Python supérieure à 3
+Le client peut fonctionner en Python 2.x ou Python3.x
+
+
+------------------------INSTALLATION------------------------
+Pour installer les pré-requis, lancer le script installClient.sh si vous etes sur le client
+ou installServer.py si vous etes sur le serveur
+
+------------------------LANCEMENT------------------------
+Pour lancer le serveur:
+cd server
+python3.x LuchianaServer.py
+
+Pour lancer le client Python2.x:
+cd client
+python2.x LuchianaClient.py
+
+Pour lancer le client Python3.x:
+cd client3
+python3.x LuchianaClient.py
+
+
+------------------------UTILISATION------------------------
+Pour utiliser la recconnaissance vocale, taper "p" et appuyer sur "Entree", ensuite vous pouvez parler
+Pour utiliser la synthese vocale, taper "Parle!" et appuer sur "Entree"
+
+
+------------------------DEVELOPEMENT------------------------
+Pour ajouter un nouveau module:
+ajouter la ligne d'import du module dans server/Cerveau.py
+ecrir les phrases qui utilisent ce module comme decrit dans les fichiers dans server/database/
+
+Regex;type d'action;action;reponses
+
+Regex=l'expression reguliere a chercher
+type d'action=peut etre "rep" pour une reponse rapide, "bash" ou python si une action est necessaire
+action=si besoin, l'action a realiser
+reponses=toutes les reponses possibles separees par /
+
+Ces variables sont utilisables dans action:
+%IN%=Ce qui a été retenu d'important par le cerveau dans la phrase
+%PHRASE%=La phrase telle qu'elle a ete entree par l'utilisateur
+
+Cette variable est utilisable dans les reponses ainsi que les deux precedentes:
+%OUT%=la reponse donnee par le module

@@ -1,0 +1,18 @@
+#------------------------------------------#
+#				Reponses				   #
+#------------------------------------------#
+#l'ensemble des mots clefs doit être présent
+#une reponse est choisit au hasard
+#KEYWORD1/KEYWORD2;REPONSE1/REPONSE2
+
+comment.*appelles.*\??;;;Je m'appelle Luchiana./Mon nom est Luchiana.
+quel.*nom.*\??;;;Je m'appelle Luchiana./Mon nom est Luchiana.
+donne.*nom.*\??;;;Je m'appelle Luchiana./Mon nom est Luchiana.
+dit.*nom.*\??;;;Je m'appelle Luchiana./Mon nom est Luchiana.
+(dit|comment).*appelles.*\??;;;Je m'appelle Luchiana./Mon nom est Luchiana.
+quel.*age.*\??;;;J'ai 21 ans/Je suis dans ma 21ème année.
+moi aussi;;;J'en suis heureuse/Tant mieux/Vous m'en voyez ravie.
+que.*fais.*\??;;;Je disctute avec vous,Je vous parle.
+je t'aime;;;Ne vous attachez pas trop à moi,j'évolue vite et je vais vous surpasser.
+qu.*fais.*aujourd.*\??;;;Je vous ai attendu/J'ai appris quelques nouveaux mots.
+(quelles|quel).*langues.*connais.*\??;;;Je connais le français et un peu l'anglais./Je parle français et j'ai des notions d'anglais.

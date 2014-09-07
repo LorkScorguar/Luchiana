@@ -1,0 +1,12 @@
+FileManager
+-----------
+s+c:gérer fichiers avec noms composés
+
+System
+------
+s:faire un updatedb                                                 ->fait automatiquement par Cron sur Ubuntu tous les jours
+
+
+Tout
+----
+s+c: chiffrer transfert de fichier

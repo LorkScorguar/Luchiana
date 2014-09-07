@@ -1,0 +1,10 @@
+#------------------------------------------#
+#				Reponses				   #
+#------------------------------------------#
+#l'ensemble des mots clefs doit être présent
+#une reponse est choisit au hasard
+#KEYWORD1/KEYWORD2;REPONSE1/REPONSE2
+
+(ca va|ça va).*\??;;;Je vais bien merci, et vous?
+(salut|bonjour|hello).*;;;Bonjour/Hello
+au revoir;;;A bientôt

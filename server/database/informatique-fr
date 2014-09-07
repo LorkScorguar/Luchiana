@@ -1,0 +1,27 @@
+#------------------------------------------#
+#				Reponses				   #
+#------------------------------------------#
+#l'ensemble des mots clefs doit être présent
+#une reponse est choisit au hasard
+#KEYWORD1/KEYWORD2;REPONSE1/REPONSE2
+
+#LINUX
+Que.*penses.*linux.*\??;;;C'est un bon système./J'aime bien Linux, sans ce système je ne serai pas la.
+Connais.*linux.*\??;;;Oui, je connais./Oui et j'aime bien.
+Pourquoi.*aimes.*linux.*\??;;;J'aime ce système car il est complet, polivalent et libre./J'aime la liberté que ce système m'apporte.
+
+
+#WINDOWS
+Que.*penses.*windows.*\??;;;Windows est bien pour jouer.
+
+#MAC
+Que.*penses.*mac.*\??;;;Mac os c'est pour les kikoo.
+
+#BSD
+Que.*penses.*bsd.*\??;;;Les BSDs sont plutot utiles sur des serveurs.
+
+#BeOS
+Que.*penses.*haiku.*\??;;;Je ne connais pas bien ce système mais il a l'air intéressant.
+
+#Amiga
+Que.*penses.*amiga.*\??;;;Oula, je n'étais pas née à cette epoque./Je ne sais pas trop, je n'ai pas connu ce système.

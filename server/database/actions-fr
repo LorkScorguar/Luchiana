@@ -1,0 +1,65 @@
+#------------------------------------------#
+#				Actions					   #
+#------------------------------------------#
+#phrase;type action;action;reponse
+#monte le son;bash;amixer sset Master 5+;c'est fait
+
+#UTILITAIRE
+(donne|quelle|quel).*heure.*\??;bash;date +%H:%M;Il est %OUT%/Mon horloge indique %OUT%/Il est %OUT% selon moi
+(donne|quelle|quel).*date.*\??;bash;date +%d-%m-%Y;Nous sommes le %OUT%
+quel.*jour.*(aujourd'hui|sommes|est).*\??;bash;date +%A;Nous sommes %OUT%
+(quel|quelle).*ann(e|é)e.*(sommes|est).*\??;bash;date +%Y;Nous sommes en %OUT%
+quel.*mois.*(sommes|est).*\??;bash;date +%B;Nous sommes en %OUT%
+envoie.*moi.*fichier;python;FileManager.sendFichier(0, %IN% );%OUT%
+
+#SYSTEME
+m(e|é)moire.*utilis(e|é)e.*\??;bash;free -m | grep 'buffers/cache' | awk '{print $3}';Il y a %OUT% Mo d'utilisé/%OUT% Mo de mémoire sont utilisés
+m(e|é)moire.*libre.*\??;bash;free -m | grep 'buffers/cache' | awk '{print $4}';Il y a %OUT% Mo de libre/%OUT% Mo de mémoire sont libres
+
+#MUSIQUE
+(monte|augmente).*son|volume;bash;amixer sset Master 5+;c'est fait
+(baisse|diminue).*son|volume;bash;amixer sset Master 5-;c'est fait
+coupe.*son;bash;amixer sset Master mute;c'est fait
+met.*musique.*pause.*!?;bash;mocp -P;Voilà qui est fait!
+relance.*musique.*!?;bash;mocp -U;C'est fait!
+passe.*musique.*suivante.*!?;bash;mocp -f;Vous n'aimiez pas l'actuel\?
+remet.*musique.*pr(e|é)c(e|é)dente.*!?;bash;mocp -r;Retour en arrière!
+change.*musique.*!?;bash;mocp -f;Fait!
+met.*musique.*!?;bash;mocp -S && mocp -p;Enjoy!
+peux.*tu.*mettre.*musique.*\??;bash;mocp -S && mocp -p;Enjoy!
+#met.*musique.*!?;bash;mplayer /media/lork/DD/MusicToUpload/omnos.mp3;Enjoy!
+(arrete|coupe).*musique;bash;killall mplayer;Enjoy!
+
+#ARDUINO
+#ferme.*portail;python
+
+#WEB
+#Mail/Gmail
+envoie.*mail;python;Mail.envoieMail();%OUT%
+v(e|é)rifie.*(mails|mail);python;Mail.checkGmail();Il y a %OUT% mails non lus
+#Freebase
+#personne
+(donne|quelle).*(date|annee).*naissance.*\??;python;Freebase.search(0, %IN% );Cette personne est née le %OUT%
+quel.*(metier|métier).*\??;python;Freebase.search(0, %IN% );Cette personne était %OUT%
+quel.*sexe.*\??;python;Freebase.search(0, %IN% );Son sexe est %OUT%
+(quelle|quel).*nationalite.*\??;python;Freebase.search(0, %IN%);Cette personne est %OUT%
+(quelle|quel).*(masse|poids).*\??;python;Freebase.search(0, %IN%);Cette personne pèse %OUT% kg.
+(quelle|quel).*(taille|hauteur).*\??;python;Freebase.search(0, %IN%);Cette personne pèse %OUT% kg.
+#geographie
+(quelle|quel).*code.*postale.*\??;python;Freebase.search(0, %IN% );Le code postale est %OUT% .
+(quelle|quel).*population.*\??;python;Freebase.search(0, %IN% );La population de cette ville est de %OUT% habitants
+#chimie
+(quelle|quel).*masse.*atomique.*\??;python;Freebase.search(0, %IN% );La masse atomique est: %OUT% .
+(quelle|quel).*nombre.*atomique.*\??;python;Freebase.search(0, %IN% );Son nombre atomique est: %OUT% 
+(quelle|quel).*symbole.*\??;python;Freebase.search(0, %IN% );Le symbole est: %OUT% .
+(quelle|quel).*formule.*\??;python;Freebase.search(0, %IN% );Sa formule est: %OUT% 
+(quelle|quel).*temp(e|é)rature.*fusion.*\??;python;Freebase.search(0, %IN% );La température de fusion est de %OUT% °C.
+(quelle|quel).*temp(e|é)rature.*ebullition.*\??;python;Freebase.search(0, %IN% );La température d'ébullition est de %OUT% °C
+
+
+#Tankbot
+#robot.*avance;python;Tankbot.play('avance');C'est parti
+#robot.*recule;python;Tankbot.play('recule');C'est parti
+#robot.*stop;python;Tankbot.play('stop');C'est parti
+#robot.*droite;python;Tankbot.play('droite');C'est parti
+#robot.*gauche;python;Tankbot.play('gauche');C'est parti
