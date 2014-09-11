@@ -6,10 +6,10 @@ import ssl
 
 def connectProxy(type):
     proxy_info = {
-    'user' : 'p068679',
-    'pass' : 'lucie42',
-    'host' : "138.21.88.176",
-    'port' : 3128 # or 8080 or whatever
+    'user' : 'toReplace',
+    'pass' : 'toReplace',
+    'host' : "toReplace",
+    'port' : toReplace # or 8080 or whatever
     }
 
     # build a new opener that uses a proxy requiring authorization

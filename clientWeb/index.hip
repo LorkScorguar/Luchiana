@@ -1,7 +1,7 @@
 Client=Import('Client.py')
 Import('Securite.py')
 Client.connect()
-Client.sendMsg("L","florent;,;lucie")
+Client.sendMsg("L","username;,;password")
 rep=Client.receiveMsg()
 
 "<html>"
