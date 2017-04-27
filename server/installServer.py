@@ -42,6 +42,7 @@ config=config.replace("CLEF","'"+clef+"'")
 config=config.replace("EMAIL","'"+email+"'")
 config=config.replace("PASSWORD","'"+Securite.vigenere(password,clef,"1")+"'")
 fichier.write(config)
+fichier.close()
 
 import Database
 Database.run()
