@@ -1,5 +1,4 @@
 import socket
-import readline
 import atexit
 import os
 import getpass
@@ -16,14 +15,21 @@ try:
 except:
     print("Vous n'avez pas notify2")
 
+try:
+	import readline
+except:
+	print("No readline on Windows")
+
 
 histfile = ".luchiana_history"
 try:
     readline.read_history_file(histfile)
-    #print("history")
 except IOError:
     pass
-atexit.register(readline.write_history_file, histfile)
+try:
+	atexit.register(readline.write_history_file, histfile)
+except:
+	pass
 
 def encodeMsg(message):
     texte=Securite.vigenere(message,clef,"1")
