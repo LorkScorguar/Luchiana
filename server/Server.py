@@ -17,9 +17,9 @@ clef=Config.clef
 class ThreadedTCPRequestHandler(socketserver.BaseRequestHandler):
     def sendMsg(self,typ,message):
         t=str(message)
-        d=Securite.vigenere(t,clef,"1")	
+        d=Securite.vigenere(t,clef,"1")
         self.request.sendall(bytes(typ+";"+d+"\n",'utf-8'))
-    
+
     def sendFile(self,data,fileName):
         self.request.sendall(bytes("F;","utf-8")+data+bytes(";"+fileName,"utf-8"))
 
@@ -34,13 +34,13 @@ class ThreadedTCPRequestHandler(socketserver.BaseRequestHandler):
             if len(rec)>0:
                 clair = Securite.vigenere(rec[2:].decode(),clef,"2")
                 r = clair.split(";,;")
-                password=r[1]	
+                password=r[1]
                 username=r[0]
                 mp=Database.searchUser(username).strip()
                 if mp=="invalide":
                     self.sendMsg("L","identify=0")
                     essai=essai+1
-                else:					
+                else:
                     if hashlib.sha224(password.encode('utf-8')).hexdigest()==mp:
                         identify=1
                         self.sendMsg("L","identify=1")
@@ -72,8 +72,8 @@ class ThreadedTCPRequestHandler(socketserver.BaseRequestHandler):
                     data = Securite.vigenere(temp[1],clef,"2")
                     cur_thread = threading.current_thread()
                     typ,answer=Cerveau.analyse(data,username)
-    
-                    if username =="florent":
+
+                    if username =="lork":
                         answer+=" (from"+str(cur_thread.name)+")"
                     self.sendMsg(typ,answer)
                 elif typ == "F":
