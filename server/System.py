@@ -155,7 +155,8 @@ def getDiskFree():
 	res=s.communicate()[0].strip().decode('utf-8')
 	code=s.returncode
 	response=str(int(int(res)/1048576))
-	return response
+	infos=["system",0,"System.getDiskFree"]
+	return response,infos
 
 def getUptime():
 	response=""
@@ -163,7 +164,8 @@ def getUptime():
 	res=s.communicate()[0].strip().decode('utf-8')
 	code=s.returncode
 	response=str(res)
-	return response
+	infos=["system",0,"System.getUptime"]
+	return response,infos
 
 def geoLoc(message):
     r=re.findall(r'\b25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?\.25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?\.25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?\.25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?\b',message)
@@ -191,4 +193,5 @@ def geoLoc(message):
                     lat=tmp[5]
                     break
         response=loc+" ("+country+")"
-    return response
+    infos=["system",0,"System.geoLoc"]
+    return response,infos

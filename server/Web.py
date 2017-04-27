@@ -105,11 +105,11 @@ def getData(texte,typeInfo):
                     res=ligne[i]
         try:
             temp=res.split("</th>\n<td")
-            p = re.compile(r'<.*?>')              
+            p = re.compile(r'<.*?>')
             data = p.sub('',temp[1])
         except:
             temp=res.split("</td>\n<td")
-            p = re.compile(r'<.*?>')              
+            p = re.compile(r'<.*?>')
             data = p.sub('',temp[1])
         p2 = re.compile(r'\[.*?\]')
         data = p2.sub('',data)
@@ -123,7 +123,7 @@ def getData(texte,typeInfo):
         if re.search("hab.",data.strip()):
             res=data.strip()[:-5]
         else:
-            res=data.strip()        
+            res=data.strip()
     return codeErreur,error,quest,fct,res
 
 """nom=input("Entrer le nom de ce sur quoi vous voulez des infos: ")
@@ -147,7 +147,8 @@ def getBtcValue():
     context=ignoreCertificate()
     resp=urllib.request.urlopen(req,context=context)
     jResp=json.loads(resp.read().decode('utf-8'))
-    return jResp['EUR']['24h']
+    infos=["web",0,"Web.getBtcValue"]
+    return jResp['EUR']['24h'],infos
 
 def getMoneroValue():
     price=0
@@ -168,4 +169,5 @@ def getMoneroValue():
             tmp=tmp.split("data-btc")[0]
             m=re.search("\d*\.\d*",tmp)
             price=m.group(0)
-    return price
+    infos=["web",0,"Web.getMoneroValue"]
+    return price,infos
