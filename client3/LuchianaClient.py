@@ -50,7 +50,7 @@ class ListenPort(threading.Thread):
             if typ=="N":
                 r=Client.notify(received)
                 if r=="ko":
-                    if wait=False:
+                    if wait==False:
                         print("\n-->%s" % received)
             elif typ=="F":
                 r=received.split(";")
@@ -75,8 +75,8 @@ class ListenUser(threading.Thread):
         global son
         global a
         while not self._stopevent.isSet():
-            data = input(">")
             wait=True
+            data = input(">")
             if data == "quit":
                 a.stop()
                 self.stop()
