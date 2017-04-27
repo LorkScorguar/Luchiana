@@ -138,7 +138,8 @@ def ping(phrase):
 	r=re.findall(r'\b25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?\.25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?\.25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?\.25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?\b',phrase)
 	ip='.'.join(r)
 	command="ping -c 1 "
-	s=subprocess.Popen(command+ip,stdout=subprocess.PIPE)
+	tmp=command+ip
+	s=subprocess.Popen(tmp.split(" "),stdout=subprocess.PIPE)
 	res=s.communicate()[0].split(b"\n")
 	code=s.returncode
 	if code==0:
