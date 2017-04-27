@@ -4,8 +4,9 @@ attention à ne compter que le nombre de mots entre / et pas entre |
 import re
 import hashlib
 from random import choice
+import getpass
 
-user_file="database/users"
+user_file="server/database/users"
 ########################
 # Users modifications  #
 ########################
@@ -65,8 +66,8 @@ def run():
     choix=input("Que voulez-vous faire?\n1-Ajouter un utilisateur\n2-Mettre a jour un utilisateur\n3-Supprimer un utilisateur\n")
     if choix == "1":
         username=input("Entrer le nom de l'utilisateur: ")
-        password=input("Entrer le mot de passe de cet utilisateur: ")
-        password2=input("Re-entrer le mot de passe: ")
+        password=getpass.getpass("Entrer le mot de passe de cet utilisateur: ")
+        password2=getpass.getpass("Re-entrer le mot de passe: ")
         verif=searchUser(username)
         if password==password2 and verif=="invalide":
             r=addUser(username,password)
@@ -77,9 +78,9 @@ def run():
             print("L'utilisateur existe deja")
     elif choix == "2":
         username=input("Entrer le nom de l'utilisateur: ")
-        password=input("Entrer le mot de passe actuel de cet utilisateur: ")
-        password2=input("Entrer le nouveau mot de passe: ")
-        password3=input("Re-entrer le nouveau mot de passe: ")
+        password=getpass.getpass("Entrer le mot de passe actuel de cet utilisateur: ")
+        password2=getpass.getpass("Entrer le nouveau mot de passe: ")
+        password3=getpass.getpass("Re-entrer le nouveau mot de passe: ")
         if password2==password3:
             r=updateUser(username,password,password2)
             print(r)
