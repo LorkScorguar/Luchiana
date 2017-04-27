@@ -6,7 +6,7 @@ import getpass
 import re
 import Securite
 
-clef="cipher key - to replace"
+clef="toreplace"
 HOST, PORT = "127.0.0.1", 9998
 
 try:
@@ -62,12 +62,17 @@ def receiveMsg():
     return typ,text
 
 def notify(phrase):
+        res="ok"
 	temp=phrase.split(";")
 	title=temp[1]
 	body=temp[2]
 	type=temp[3]
-	n = notify2.Notification(title,body)
-	n.show()
+        try:
+	    n = notify2.Notification(title,body)
+	    n.show()
+        except:
+            res="ko"
+        return res
 
 def clientQuit():
 	print("A bientot")
