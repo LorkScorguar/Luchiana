@@ -123,3 +123,36 @@ def command(afaire):
 def receiveFile():
     return "ok"
 
+def getMac():
+	address=getnode()
+	h = iter(hex(address)[2:].zfill(12))
+	mac=":".join(i + next(h) for i in h)
+	return mac
+
+def ping(host):
+    response=""
+    command="ping -c 1 "
+    s=subprocess.Popen(command+host,stdout=subprocess.PIPE)
+    res=s.communicate()[0].split(b"\n")
+    code=s.returncode
+    if code==0:
+        response="Ping was successful"
+    else:
+        response="Ping was unsuccessful"
+    return response
+
+def getDiskFree():
+	response=""
+	s=subprocess.Popen("df | grep '/$' | awk -F " " '{print $4}'",stdout=subprocess.PIPE)
+	res=s.communicate()[0].strip().decode('utf-8')
+	code=s.returncode
+	response=str(int(int(res)/1048576))
+	return response
+
+def getUptime():
+	response=""
+	s=subprocess.Popen("uptime | awk -F " " '{print $3}'",stdout=subprocess.PIPE)
+	res=s.communicate()[0].strip().decode('utf-8')
+	code=s.returncode
+	response=str(res)
+	return response
