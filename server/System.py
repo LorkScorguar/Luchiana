@@ -56,7 +56,7 @@ class Monitor():
                 if len(self.stdout_list[i])>0:
                     z+=" "+str(self.stdout_list[i].decode())
             return z
-	
+
     def checkMail(self,addr):
         res=Mail.checkGmail()
         return res
@@ -133,10 +133,12 @@ def getMac():
 	mac=":".join(i + next(h) for i in h)
 	return mac
 
-def ping(host):
+def ping(phrase):
     response=""
+	r=re.findall(r'\b25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?\.25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?\.25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?\.25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?\b',phrase)
+	ip='.'.join(r)
     command="ping -c 1 "
-    s=subprocess.Popen(command+host,stdout=subprocess.PIPE)
+    s=subprocess.Popen(command+ip,stdout=subprocess.PIPE)
     res=s.communicate()[0].split(b"\n")
     code=s.returncode
     if code==0:
