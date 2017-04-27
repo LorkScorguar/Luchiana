@@ -8,8 +8,8 @@ import subprocess
 import os
 
 import Client
-import Audio
-import GoogleSpeechToText as GSTT
+#import Audio
+#import GoogleSpeechToText as GSTT
 import FileManager
 
 stop=False
@@ -47,16 +47,20 @@ class ListenPort(threading.Thread):
         while not self._stopevent.isSet():
             typ,received = Client.receiveMsg()
             if typ=="N":
-                Client.notify(received)
+                r=Client.notify(received)
+                if r=="ko":
+                    print("\n-->%s" % received)
             elif typ=="F":
                 r=received.split(";")
                 FileManager.convertFileReceive(r[0],r[1])
-                Client.notify("notif;Transfert;Fichier "+r[1]+" bien reçu;4")
+                r=Client.notify("notif;Transfert;Fichier "+r[1]+" bien reçu;4")
+                if r=="ko":
+                    print("\n-->Fichier "+r[1]+" bien reçu")
             else:
                 print("\n-->%s" % received)
                 if son:
                     adire=received[:-14]
-                    Audio.parle(adire)
+                    #Audio.parle(adire)
             time.sleep(0.01)
     def stop(self):
         self._stopevent.set( )
@@ -100,7 +104,9 @@ i=connection()
 #import Proxy
 #Proxy.connectProxy('https')
 if i == 1:
-    Client.notify("notif;Connection;Vous etes desormais connecte a Luchiana;1")
+    r=Client.notify("notif;Connection;Vous etes desormais connecte a Luchiana;1")
+    if r=="ko":
+        print("\n-->Vous etes desormais connecte a Luchiana")
     a=ListenPort('lp')
     b=ListenUser('lu')
     c=threading.Thread(None, GSTT.listen_for_speech, None)
