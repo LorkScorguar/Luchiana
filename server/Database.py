@@ -88,11 +88,12 @@ def run():
             print("Les mots de passes ne sont pas identiques")
     elif choix == "3":
         username=input("Entrer le nom de l'utilisateur: ")
-        r=removeUser(username)        
+        r=removeUser(username)
         print(r)
     elif choix=="4":
-        print("Ok")
+        print("Sans utilisateur, vous ne pourrez rien faire\nVous pouvez relancer ce module a tout moment en appellant Database.py")
     else:
         print("Choix incorrect")
 
-#run()
+if __name__ == '__main__':
+	run()
