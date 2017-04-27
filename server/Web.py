@@ -34,6 +34,8 @@ utiliser http://fr.mobile.wikipedia.org/ pour plus de rapidite
 
 import urllib.request
 import re
+import ssl
+import json
 
 def demandeChoix(page):
     start=page.find("<ul>")
@@ -129,3 +131,41 @@ typeInfo=input("Entrer le type d'info voulu: ")
 res=getData(nom,typeInfo)
 print(res[1])
 """
+
+
+def ignoreCertificate():
+    context = ssl.create_default_context()
+    context.check_hostname=False
+    context.verify_mode = ssl.CERT_NONE
+    return context
+
+def getBtcValue():
+    context=ignoreCertificate
+    url="http://api.bitcoincharts.com/v1/weighted_prices.json"
+    req=urllib.request.Request(url)
+    req.add_header("content-type", "application/json")
+    context=ignoreCertificate()
+    resp=urllib.request.urlopen(req,context=context)
+    jResp=json.loads(resp.read().decode('utf-8'))
+    return jResp['EUR']['24h']
+
+def getMoneroValue():
+    price=0
+    context=ignoreCertificate
+    url="https://coinmarketcap.com/#EUR"
+    req=urllib.request.Request(url)
+    context=ignoreCertificate()
+    #resp=urllib.request.urlopen(req,context=context)
+    #data=resp.read().decode('utf-8')
+    data=open("coinmarketcap.html","r").read()
+    data=data.split("<table class=\"table\" id=\"currencies\">")[1]
+    data=data.split("</table>")[0]
+    currencies=data.split("<tr id=")
+    del currencies[0]#remove table headers
+    for currency in currencies:
+        if "id-monero" in currency:
+            tmp=currency.split("class=\"price\"")[1]
+            tmp=tmp.split("data-btc")[0]
+            m=re.search("\d*\.\d*",tmp)
+            price=m.group(0)
+    return price
