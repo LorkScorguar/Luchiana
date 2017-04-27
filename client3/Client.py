@@ -24,7 +24,7 @@ except:
 histfile = ".luchiana_history"
 try:
     readline.read_history_file(histfile)
-except IOError:
+except:
     pass
 try:
 	atexit.register(readline.write_history_file, histfile)
