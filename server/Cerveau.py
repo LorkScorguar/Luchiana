@@ -14,7 +14,7 @@ import Config
 import FileManager
 
 global infos
-global action 
+global action
 global code
 global reponse
 global listeFichiers
@@ -22,12 +22,12 @@ reponse=Config.defaultResponse
 listeFichiers=Config.listeFichiers
 infos=[]
 code=0
-action="" 
+action=""
 
 
 Articles=["le","la","les","l","un","une","des","du"]
 PronomsSujet=["j","je","tu","il","elle","on","nous","vous","ils","elles"]
-PronomsPossessif=["mon","ton","son","ma","ta","sa","mes","tes","ses"]    
+PronomsPossessif=["mon","ton","son","ma","ta","sa","mes","tes","ses"]
 Question=["comment","quel","quelle","quand","combien","qui","que","qu'est-ce","qu'est ce"]
 Ponctuation=[".","!","?","...",",",";",":","(",")"]
 
@@ -51,7 +51,7 @@ def analyse(phrase,username):
         m=re.search("[A-Z].*",phrase)
         resIn=m.group(0)
     if action=="":#gestion passage initial
-        if re.search("(calcul|combien|pythagore|thales|perimetre|surface|volume|triangle)?[-+]?\d+",phrase,re.IGNORECASE) or re.search("([-+]?\d+)+",phrase):
+        if re.search("(calcul|combien|pythagore|thales|perimetre|surface|volume|triangle){0,}[-+]?\d+",phrase,re.IGNORECASE) or re.search("([-+]?\d+)+",phrase):
         #if re.search("toto",phrase):
             if re.search("[triangle,rectangle]",phrase,re.IGNORECASE):
                 phrase+=" pythagore"
