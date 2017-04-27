@@ -146,7 +146,8 @@ def ping(phrase):
 		response="Ping was successful"
 	else:
 		response="Ping was unsuccessful"
-	return response
+	infos=["system",0,"System.ping"]
+	return response,infos
 
 def getDiskFree():
 	response=""
