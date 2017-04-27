@@ -62,17 +62,17 @@ def receiveMsg():
     return typ,text
 
 def notify(phrase):
-        res="ok"
+	res="ok"
 	temp=phrase.split(";")
 	title=temp[1]
 	body=temp[2]
 	type=temp[3]
-        try:
-	    n = notify2.Notification(title,body)
-	    n.show()
-        except:
-            res="ko"
-        return res
+	try:
+		n = notify2.Notification(title,body)
+		n.show()
+	except:
+		res="ko"
+		return res
 
 def clientQuit():
 	print("A bientot")
@@ -87,4 +87,3 @@ def connect():
 	    sock.connect((HOST, PORT))
 	except ValueError:
 	    print("there is an error")
-
