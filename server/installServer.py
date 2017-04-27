@@ -20,7 +20,7 @@ smtpPortSSL="993"
 #Freebase
 api_key="AIzaSyA-WMfgx3SUL4RAWRKiStbU8JV2al0DPQ0"
 service_url="https://www.googleapis.com/freebase/v1/search"
-service_url="https://www.googleapis.com/freebase/v1/topic"
+service_url2="https://www.googleapis.com/freebase/v1/topic"
 defaultFreebaseResponse="Impossible de trouver l'information"
 
 #database
