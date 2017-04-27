@@ -63,7 +63,7 @@ def removeUser(username):
 	return "utilisateur "+username+" supprime"
 
 def run():
-    choix=input("Que voulez-vous faire?\n1-Ajouter un utilisateur\n2-Mettre a jour un utilisateur\n3-Supprimer un utilisateur\n4-Rien")
+    choix=input("Que voulez-vous faire?\n1-Ajouter un utilisateur\n2-Mettre a jour un utilisateur\n3-Supprimer un utilisateur\n4-Rien\n")
     if choix == "1":
         username=input("Entrer le nom de l'utilisateur: ")
         password=getpass.getpass("Entrer le mot de passe de cet utilisateur: ")
