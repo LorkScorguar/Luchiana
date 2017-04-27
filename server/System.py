@@ -156,3 +156,31 @@ def getUptime():
 	code=s.returncode
 	response=str(res)
 	return response
+
+def geoLoc(message):
+    r=re.findall(r'\b25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?\.25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?\.25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?\.25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?\b',message)
+    ip='.'.join(r)
+    blockDb=open("database/GeoLiteCity-Blocks.csv","r")
+    locDb=open("database/GeoLiteCity-Location.csv","r")
+    integerIp=int(ipaddress.ip_address(ip))
+    location=""
+    response="Ip cannot be localized"
+    locId=0
+    for line in blockDb:
+        if not re.search("#",line):
+            tmp=line.strip().replace("\"","").split(",")
+            if int(tmp[0])<=integerIp and integerIp <= int(tmp[1]):
+                locId=tmp[2]
+                break
+    if locId!=0:
+        for line in locDb:
+            if not re.search("#",line):
+                tmp=line.strip().replace("\"","").split(",")
+                if tmp[0]==locId:
+                    loc=tmp[3]
+                    country=tmp[1]
+                    long=tmp[6]
+                    lat=tmp[5]
+                    break
+        response=loc+" ("+country+")"
+    return response
