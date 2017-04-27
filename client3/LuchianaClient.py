@@ -59,10 +59,11 @@ class ListenPort(threading.Thread):
                 if r=="ko":
                     print("\n-->Fichier "+r[1]+" bien reçu")
             else:
-                print("\n-->%s" % received)
-                if son:
-                    adire=received[:-14]
-                    #Audio.parle(adire)
+                if wait==False:
+                    print("\n-->%s" % received)
+                    if son:
+                        adire=received[:-14]
+                        #Audio.parle(adire)
     def stop(self):
         self._stopevent.set( )
 
