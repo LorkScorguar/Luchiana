@@ -14,7 +14,7 @@ import FileManager
 
 stop=False
 son=False
-wait=False
+
 
 def connection():
     Client.connect()
@@ -50,8 +50,7 @@ class ListenPort(threading.Thread):
             if typ=="N":
                 r=Client.notify(received)
                 if r=="ko":
-                    if wait==False:
-                        print("\n-->%s" % received)
+                    print("\n-->%s" % received)
             elif typ=="F":
                 r=received.split(";")
                 FileManager.convertFileReceive(r[0],r[1])
@@ -59,11 +58,10 @@ class ListenPort(threading.Thread):
                 if r=="ko":
                     print("\n-->Fichier "+r[1]+" bien reçu")
             else:
-                if wait==False:
-                    print("\n-->%s" % received)
-                    if son:
-                        adire=received[:-14]
-                        #Audio.parle(adire)
+                print("\n-->%s" % received)
+                if son:
+                    adire=received[:-14]
+                    #Audio.parle(adire)
     def stop(self):
         self._stopevent.set( )
 
@@ -76,7 +74,6 @@ class ListenUser(threading.Thread):
         global son
         global a
         while not self._stopevent.isSet():
-            wait=True
             data = input(">")
             if data == "quit":
                 a.stop()
@@ -90,14 +87,11 @@ class ListenUser(threading.Thread):
                 fileName=m.group(0)
                 data2,infos=FileManager.sendFichier(0,fileName)
                 if infos[1]==0:
-                    wait=False
                     Client.sendFile(data2,fileName)
                 else:
                     choix=input(data2)
-                    wait=False
                     data2,infos=FileManager.sendFichier(1,choix,infos)
             elif len(data):
-                wait=False
                 Client.sendMsg("T",str(data))
             else:
                 continue
