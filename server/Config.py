@@ -1,16 +1,16 @@
 #LuchianaServer
 port=9998
-address="127.0.0.1"
+address='127.0.0.1'
 
 #Server
-clef="cipher key"
+clef='toreplace'
 
 #Cerveau
 defaultResponse="Je ne sais pas/Je n'ai pas compris"
 
 #Mail
-email="gmail account"
-password="password"
+email='test@gmail.com'
+password='àÚÖÝ'
 smtp="smtp.gmail.com"
 smtpPort="587"
 smtpPortSSL="993"

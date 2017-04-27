@@ -6,7 +6,7 @@ import hashlib
 from random import choice
 import getpass
 
-user_file="server/database/users"
+user_file="database/users"
 ########################
 # Users modifications  #
 ########################

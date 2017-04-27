@@ -49,7 +49,6 @@ class ThreadedTCPRequestHandler(socketserver.BaseRequestHandler):
                     else:
                         self.sendMsg("L","identify=0")
                         essai=essai+1
-                #print(identify)
             else:
                 builtins.init=0
                 print("client deconnecte")

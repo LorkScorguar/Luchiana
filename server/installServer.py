@@ -20,7 +20,11 @@ smtpPortSSL="993"
 #Freebase
 api_key="AIzaSyA-WMfgx3SUL4RAWRKiStbU8JV2al0DPQ0"
 service_url="https://www.googleapis.com/freebase/v1/search"
-defautFreebaseResponse="Impossible de trouver l'information"
+service_url="https://www.googleapis.com/freebase/v1/topic"
+defaultFreebaseResponse="Impossible de trouver l'information"
+
+#database
+listeFichiers=["actions-fr","informatique-fr","politesse-fr","simple-fr"]
 """
 
 import getpass
