@@ -44,7 +44,7 @@ class ThreadedTCPRequestHandler(socketserver.BaseRequestHandler):
                     if hashlib.sha224(password.encode('utf-8')).hexdigest()==mp:
                         identify=1
                         self.sendMsg("L","identify=1")
-                        logFile.write(username+";"+datetime.datetime.now().isoformat())
+                        logFile.write(username+";"+datetime.datetime.now().isoformat()+"\n")
                         break
                     else:
                         self.sendMsg("L","identify=0")
