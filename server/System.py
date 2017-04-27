@@ -134,18 +134,18 @@ def getMac():
 	return mac
 
 def ping(phrase):
-    response=""
+	response=""
 	r=re.findall(r'\b25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?\.25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?\.25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?\.25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?\b',phrase)
 	ip='.'.join(r)
-    command="ping -c 1 "
-    s=subprocess.Popen(command+ip,stdout=subprocess.PIPE)
-    res=s.communicate()[0].split(b"\n")
-    code=s.returncode
-    if code==0:
-        response="Ping was successful"
-    else:
-        response="Ping was unsuccessful"
-    return response
+	command="ping -c 1 "
+	s=subprocess.Popen(command+ip,stdout=subprocess.PIPE)
+	res=s.communicate()[0].split(b"\n")
+	code=s.returncode
+	if code==0:
+		response="Ping was successful"
+	else:
+		response="Ping was unsuccessful"
+	return response
 
 def getDiskFree():
 	response=""
