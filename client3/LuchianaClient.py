@@ -61,7 +61,6 @@ class ListenPort(threading.Thread):
                 if son:
                     adire=received[:-14]
                     #Audio.parle(adire)
-            time.sleep(0.01)
     def stop(self):
         self._stopevent.set( )
 
