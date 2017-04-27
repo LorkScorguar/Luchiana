@@ -17,6 +17,7 @@ m(e|é)moire.*utilis(e|é)e.*\??;bash;free -m | grep 'buffers/cache' | awk '{pri
 m(e|é)moire.*libre.*\??;bash;free -m | grep 'buffers/cache' | awk '{print $4}';Il y a %OUT% Mo de libre/%OUT% Mo de mémoire sont libres
 quel.*uptime.*?;python;System.getUptime();L'uptime est de %OUT% jours
 ping.*;python;System.ping( %IN% );%OUT%
+localise.*;python;System.geoLoc( %IN% );%OUT%
 
 #MUSIQUE
 (monte|augmente).*son|volume;bash;amixer sset Master 5+;c'est fait
