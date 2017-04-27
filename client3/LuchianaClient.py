@@ -109,7 +109,7 @@ if i == 1:
         print("\n-->Vous etes desormais connecte a Luchiana")
     a=ListenPort('lp')
     b=ListenUser('lu')
-    c=threading.Thread(None, GSTT.listen_for_speech, None)
+    #c=threading.Thread(None, GSTT.listen_for_speech, None)
     a.start()
     b.start()
 #    c.start()
