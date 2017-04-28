@@ -41,7 +41,7 @@ global service_url
 global service_url2
 global defaultResponse
 defaultResponse=Config.defaultFreebaseResponse
-api_key=Config.api_key
+api_key=Config.freebase_apikey
 service_url=Config.service_url
 service_url2=Config.service_url2
 
@@ -64,7 +64,7 @@ def searchTopic(top,input):
     for result in response['result']:
         top1=top.replace("_"," ")
         if re.search(top,str(result)):
-            if result['name'].lower()==top1 or result['id']=="/en/"+top:    
+            if result['name'].lower()==top1 or result['id']=="/en/"+top:
                 res+=str(i)+") "+result['name']+";("+result['id']+")\n"
                 liste.append(result['mid'])
                 i+=1
@@ -72,7 +72,7 @@ def searchTopic(top,input):
             if result['name'].lower()==input.lower():
                 res+=str(i)+") "+result['name']+";("+result['id']+")\n"
                 liste.append(result['mid'])
-                i+=1                
+                i+=1
     return res.strip(),liste
 
 def searchInfos(top,fil):
