@@ -31,7 +31,6 @@ remet.*musique.*pr(e|é)c(e|é)dente.*!?;bash;mocp -r;Retour en arrière!
 change.*musique.*!?;bash;mocp -f;Fait!
 met.*musique.*!?;bash;mocp -S && mocp -p;Enjoy!
 peux.*tu.*mettre.*musique.*\??;bash;mocp -S && mocp -p;Enjoy!
-#met.*musique.*!?;bash;mplayer /media/lork/DD/MusicToUpload/omnos.mp3;Enjoy!
 (arrete|coupe).*musique;bash;killall mplayer;Enjoy!
 
 #ARDUINO
