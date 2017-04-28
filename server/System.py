@@ -151,10 +151,16 @@ def ping(phrase):
 
 def getDiskFree():
 	response=""
-	s=subprocess.Popen("df | grep '/$' | awk -F " " '{print $4}'",stdout=subprocess.PIPE)
+	s=subprocess.Popen("df",stdout=subprocess.PIPE)
 	res=s.communicate()[0].strip().decode('utf-8')
 	code=s.returncode
-	response=str(int(int(res)/1048576))
+	tmp=res.split(" ")
+	lres=list(filter(None, tmp))
+	for item in lres:
+		if re.search("/\n",item):
+			pos=lres.index(item)
+			break
+	response=str(int(int(lres[pos-2])/1048576))
 	infos=["system",0,"System.getDiskFree"]
 	return response,infos
 
@@ -163,7 +169,7 @@ def getUptime():
 	s=subprocess.Popen("uptime",stdout=subprocess.PIPE)
 	res=s.communicate()[0].strip().decode('utf-8')
 	code=s.returncode
-	response=str(res).split(" ")[2]+str(res).split(" ")[3]
+	response=str(res).split(" ")[2]+str(res).split(" ")[3][:-1]
 	infos=["system",0,"System.getUptime"]
 	return response,infos
 
