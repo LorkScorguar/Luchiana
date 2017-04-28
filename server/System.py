@@ -160,10 +160,10 @@ def getDiskFree():
 
 def getUptime():
 	response=""
-	s=subprocess.Popen("uptime | awk -F \" \" '{print $3}'".split(" "),stdout=subprocess.PIPE)
+	s=subprocess.Popen("uptime",stdout=subprocess.PIPE)
 	res=s.communicate()[0].strip().decode('utf-8')
 	code=s.returncode
-	response=str(res)
+	response=str(res).split(" ")[2]+str(res).split(" ")[3]
 	infos=["system",0,"System.getUptime"]
 	return response,infos
 
