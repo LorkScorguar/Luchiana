@@ -156,9 +156,15 @@ def getMoneroValue():
     url="https://coinmarketcap.com/#EUR"
     req=urllib.request.Request(url)
     context=ignoreCertificate()
-    #resp=urllib.request.urlopen(req,context=context)
-    #data=resp.read().decode('utf-8')
-    data=open("coinmarketcap.html","r").read()
+    resp=urllib.request.urlopen(req,context=context)
+    data=resp.read().decode('utf-8')
+    rates=data.split("<div id=\"currency-exchange-rates\"")[1]
+    rates=rates.split("></div>")[0]
+    lrate=rates.split("\n")
+    for item in lrate:
+        if re.search("eur",item):
+            rate=item.split("=")[1]
+            rate=rate.replace("\"","")
     data=data.split("<table class=\"table\" id=\"currencies\">")[1]
     data=data.split("</table>")[0]
     currencies=data.split("<tr id=")
@@ -168,6 +174,6 @@ def getMoneroValue():
             tmp=currency.split("class=\"price\"")[1]
             tmp=tmp.split("data-btc")[0]
             m=re.search("\d*\.\d*",tmp)
-            price=m.group(0)
+            price=float(m.group(0))/float(rate)
     infos=["web",0,"Web.getMoneroValue"]
     return price,infos
