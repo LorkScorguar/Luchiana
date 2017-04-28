@@ -15,9 +15,10 @@ envoie.*moi.*fichier;python;FileManager.sendFichier(0, %IN% );%OUT%
 #SYSTEME
 m(e|é)moire.*utilis(e|é)e.*\??;bash;free -m | grep 'buffers/cache' | awk '{print $3}';Il y a %OUT% Mo d'utilisé/%OUT% Mo de mémoire sont utilisés
 m(e|é)moire.*libre.*\??;bash;free -m | grep 'buffers/cache' | awk '{print $4}';Il y a %OUT% Mo de libre/%OUT% Mo de mémoire sont libres
-quel.*uptime.*?;python;System.getUptime();L'uptime est de %OUT% jours
+quel.*uptime.*?;python;System.getUptime();L'uptime est de %OUT%
 ping.*;python;System.ping( %IN% );%OUT%
 localise.*;python;System.geoLoc( %IN% );%OUT%
+(combien|quel).*espace.*dispo.*?;python;System.getDiskFree(); Il reste %OUT% Go
 
 #MUSIQUE
 (monte|augmente).*son|volume;bash;amixer sset Master 5+;c'est fait
