@@ -37,6 +37,8 @@ import re
 import ssl
 import json
 
+import Config
+
 def demandeChoix(page):
     start=page.find("<ul>")
     end=page.find("</ul>")
@@ -177,3 +179,21 @@ def getMoneroValue():
             price=float(m.group(0))/float(rate)
     infos=["web",0,"Web.getMoneroValue"]
     return price,infos
+
+def getWeather(message):
+    res=""
+    r=re.findall("[A-Z][a-z]*",message)
+    city=r[len(r)-1]
+    apikey=Config.weather_apikey
+    url="http://api.openweathermap.org/data/2.5/weather?APPID="+apikey+"&lang=fr&q="+city
+    req=urllib.request.Request(url)
+    req.add_header("content-type", "application/json")
+    context=ignoreCertificate()
+    resp=urllib.request.urlopen(req,context=context)
+    jResp=json.loads(resp.read().decode('utf-8'))
+    res="La météo à "+city+" est "+str(jResp['weather'][0]['description'])
+    infos=["web",0,"Web.getWeather"]
+    return res,infos
+
+#r=getWeather("Quelle est la météo à Buxerolles?")
+#print(r)
