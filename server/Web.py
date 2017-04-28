@@ -36,6 +36,7 @@ import urllib.request
 import re
 import ssl
 import json
+import datetime
 
 import Config
 
@@ -185,15 +186,46 @@ def getWeather(message):
     r=re.findall("[A-Z][a-z]*",message)
     city=r[len(r)-1]
     apikey=Config.weather_apikey
-    url="http://api.openweathermap.org/data/2.5/weather?APPID="+apikey+"&lang=fr&q="+city
+    url="http://api.openweathermap.org/data/2.5/weather?APPID="+apikey+"&lang=fr&units=metric&q="+city
     req=urllib.request.Request(url)
     req.add_header("content-type", "application/json")
     context=ignoreCertificate()
     resp=urllib.request.urlopen(req,context=context)
     jResp=json.loads(resp.read().decode('utf-8'))
-    res="La météo à "+city+" est "+str(jResp['weather'][0]['description'])
+    #print(jResp)
+    res="La météo à "+city+" est "+str(jResp['weather'][0]['description'])+" ("+str(jResp['main']['temp_min'])+"°C-"+str(jResp['main']['temp_max'])+"°C)"
     infos=["web",0,"Web.getWeather"]
     return res,infos
 
-#r=getWeather("Quelle est la météo à Buxerolles?")
-#print(r)
+def getTomorrowWeather(message):
+    res=""
+    r=re.findall("[A-Z][a-z]*",message)
+    city=r[len(r)-1]
+    apikey=Config.weather_apikey
+    url="http://api.openweathermap.org/data/2.5/forecast?APPID="+apikey+"&lang=fr&units=metric&q="+city
+    req=urllib.request.Request(url)
+    req.add_header("content-type", "application/json")
+    context=ignoreCertificate()
+    resp=urllib.request.urlopen(req,context=context)
+    jResp=json.loads(resp.read().decode('utf-8'))
+    today=datetime.datetime.now()
+    tomorrow=today+datetime.timedelta(days=1)
+    dweather={}
+    ltemp=[]
+    for item in jResp['list']:
+        if re.search(tomorrow.strftime("%Y-%m-%d"),item['dt_txt']):
+            if item['weather'][0]['description'] not in dweather.keys():
+                dweather[item['weather'][0]['description']]=1
+            else:
+                dweather[item['weather'][0]['description']]+=1
+            ltemp.append(item['main']['temp_min'])
+            ltemp.append(item['main']['temp_max'])
+    weather=max(dweather,key=dweather.get)
+    temp_min=min(ltemp)
+    temp_max=max(ltemp)
+    res="Demain, la météo à "+city+" sera "+str(weather)+" ("+str(temp_min)+"°C-"+str(temp_max)+"°C)"
+    infos=["web",0,"Web.getTomorrowWeather"]
+    return res,infos
+
+r=getTomorrowWeather("Quelle est la météo à Plaisir?")
+print(r)
