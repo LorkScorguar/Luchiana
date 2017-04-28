@@ -41,6 +41,7 @@ quelle.*valeur.*(bitcoin|btc).*?;python;Web.getBtcValue();Un bitcoin vaut %OUT% 
 combien.*vaut.*(bitcoin|btc).*?;python;Web.getBtcValue();Un bitcoin vaut %OUT% euros
 quelle.*valeur.*(monero|xmr).*?;python;Web.getMoneroValue();Un monero vaut %OUT% euros
 combien.*vaut.*(monero|xmr).*?;python;Web.getMoneroValue();Un monero vaut %OUT% euros
+quelle.*(temps|meteo|météo).*?;python;Web.getWeather( %IN% );%OUT%
 #Mail/Gmail
 envoie.*mail;python;Mail.envoieMail();%OUT%
 v(e|é)rifie.*(mails|mail);python;Mail.checkGmail();Il y a %OUT% mails non lus
