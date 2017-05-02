@@ -258,6 +258,7 @@ def rssParse(url):
 
 def checkNews():
     interestingNews={}
+    #check if item has already been presented to user
     for url in Config.news_url:
         darticles=rssParse(url)#get recent articles for each website
         for k,v in darticles.items():
@@ -268,7 +269,7 @@ def checkNews():
         print(k)
     return "ok"
 
-def checkReddit(subreddit):
+def getReddit(subreddit):
     url="https://www.reddit.com/r/"+subreddit+".json"
     req=urllib.request.Request(url)
     req.add_header("content-type", "application/json")
@@ -283,3 +284,8 @@ def checkReddit(subreddit):
         date=str(item['data']['created_utc'])
         darticles[title]=description+";"+date+";"+link
     return darticles
+
+def checkReddit():
+    for sub in Config.reddit:
+        darticles=getReddit(sub)
+        #check if item has already been presented to user
