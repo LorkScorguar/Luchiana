@@ -28,6 +28,10 @@ listeFichiers=["actions-fr","informatique-fr","politesse-fr","simple-fr"]
 
 #Weather
 weather_apikey=OPENWEATHER_KEY
+
+#News
+news_url=[NEWS_URL]
+topics=[TOPICS]
 """
 
 import getpass
@@ -42,12 +46,17 @@ email=input("Entrer le compte gmail réservé pour votre IA, ou le votre: ")
 password=getpass.getpass("Entrer le mot de passe associé: ")
 freebase=input("Entrer votre clef api pour freebase:")
 weather=input("Entrer votre clef api pour openweathermap:")
+news_url=input("Entrer les urls des fluxs rss que vous voulez suivre (séparé par des virgules): ")
+topics=input("Enter la liste des sujets qui vous intéressent (séparé par des virgules): ")
+lt='"'+'","'.join(topics.split(","))+'"'
 config=config.replace("IPADDRESS","'"+ip+"'")
 config=config.replace("CLEF","'"+clef+"'")
 config=config.replace("EMAIL","'"+email+"'")
 config=config.replace("FREEBASE_KEY","'"+freebase+"'")
 config=config.replace("OPENWEATHER_KEY","'"+weather+"'")
 config=config.replace("PASSWORD","'"+Securite.vigenere(password,clef,"1")+"'")
+config=config.replace("NEWS_URL",'","'.join(news_url.split(","))+'"')
+config=config.replace("TOPICS",'"'+'","'.join(topics.split(","))+'"')
 fichier.write(config)
 fichier.close()
 
