@@ -32,6 +32,7 @@ weather_apikey=OPENWEATHER_KEY
 #News
 news_url=[NEWS_URL]
 topics=[TOPICS]
+reddit=[REDDIT]
 """
 
 import getpass
@@ -48,7 +49,7 @@ freebase=input("Entrer votre clef api pour freebase:")
 weather=input("Entrer votre clef api pour openweathermap:")
 news_url=input("Entrer les urls des fluxs rss que vous voulez suivre (séparé par des virgules): ")
 topics=input("Enter la liste des sujets qui vous intéressent (séparé par des virgules): ")
-lt='"'+'","'.join(topics.split(","))+'"'
+reddit=input("Enter la liste des subreddit qui vous intéressent (séparé par des virgules): ")
 config=config.replace("IPADDRESS","'"+ip+"'")
 config=config.replace("CLEF","'"+clef+"'")
 config=config.replace("EMAIL","'"+email+"'")
@@ -57,6 +58,7 @@ config=config.replace("OPENWEATHER_KEY","'"+weather+"'")
 config=config.replace("PASSWORD","'"+Securite.vigenere(password,clef,"1")+"'")
 config=config.replace("NEWS_URL",'","'.join(news_url.split(","))+'"')
 config=config.replace("TOPICS",'"'+'","'.join(topics.split(","))+'"')
+config=config.replace("REDDIT",'"'+'","'.join(reddit.split(","))+'"')
 fichier.write(config)
 fichier.close()
 
