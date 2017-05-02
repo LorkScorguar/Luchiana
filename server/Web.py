@@ -18,7 +18,7 @@ FONCTIONS:
     Masse=poids
     Dimensions=taille
     Créé par/Scénario=auteur,dessinateur
-    Pays:origine
+    Pays:origines
 +gestion homonymes: proposer les différents choix et en retenir les urls
 -gestion urls complexes: faire recherche et proposer les choix et retenir les urls
 -multiple backends: wikipedia, google, etc
@@ -37,6 +37,7 @@ import re
 import ssl
 import json
 import datetime
+import xml.etree.ElementTree as ET
 
 import Config
 
@@ -227,5 +228,68 @@ def getTomorrowWeather(message):
     infos=["web",0,"Web.getTomorrowWeather"]
     return res,infos
 
-r=getTomorrowWeather("Quelle est la météo à Plaisir?")
-print(r)
+def rssParse(url):
+    req=urllib.request.Request(url)
+    context=ignoreCertificate()
+    resp=urllib.request.urlopen(req,context=context)
+    data=resp.read().decode('utf-8')
+    root=ET.fromstring(data)
+    darticles={}
+    for item in root[0]:
+        if item.tag=="item":
+            #title=description;data;link
+            darticles[item[0].text]=item[1].text+";"+item[2].text+";"+item[3].text
+    return darticles
+
+def checkPhoronix():
+    url="http://www.phoronix.com/rss.php"
+    darticles=rssParse(url)
+    return "ok"
+
+def checkJDG():
+    url="http://feeds2.feedburner.com/LeJournalduGeek"
+    darticles=rssParse(url)
+    return "ok"
+
+def checkClubic():
+    url="http://www.clubic.com/articles.rss"
+    darticles=rssParse(url)
+    return "ok"
+
+def checkKorben():
+    url="https://korben.info/feed"
+    darticles=rssParse(url)
+    for k, v in darticles.items():
+        print(k)
+    return "ok"
+
+def checkFrandroid():
+    url="http://www.frandroid.com/feed"
+    darticles=rssParse(url)
+    for k, v in darticles.items():
+        print(k)
+    return "ok"
+
+def checkPhonandroid():
+    url="http://www.phonandroid.com/feed"
+    darticles=rssParse(url)
+    for k, v in darticles.items():
+        print(k)
+    return "ok"
+
+def checkXda():
+    url="http://xda-developers.com/news.rss"
+    darticles=rssParse(url)
+    for k, v in darticles.items():
+        print(k)
+    return "ok"
+
+def checkLinuxFR():
+    journaux="http://linuxfr.org/journaux.atom"
+    news="http://linuxfr.org/news.atom"
+    return "ok"
+
+def checkReddit(subreddit):
+    return "ok"
+
+checkXda()
