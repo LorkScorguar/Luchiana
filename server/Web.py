@@ -259,13 +259,6 @@ def checkNews():
         print(k)
     return "ok"
 
-def checkXda():
-    url="http://xda-developers.com/news.rss"
-    darticles=rssParse(url)
-    for k, v in darticles.items():
-        print(k)
-    return "ok"
-
 def checkLinuxFR():
     journaux="http://linuxfr.org/journaux.atom"
     news="http://linuxfr.org/news.atom"
