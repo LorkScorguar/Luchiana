@@ -247,12 +247,12 @@ def rssParse(url):
     if re.search("atom",url):
         for item in root:
             if item.tag=="{http://www.w3.org/2005/Atom}entry":
-                #title=description;data;link
+                #title=description;date;link
                 darticles[item.find("{http://www.w3.org/2005/Atom}title").text+"("+site+")"]=item.find("{http://www.w3.org/2005/Atom}content").text+";"+item.find("{http://www.w3.org/2005/Atom}published").text+";"+item.find("{http://www.w3.org/2005/Atom}link").attrib['href']
     else:
         for item in root[0]:
             if item.tag=="item":
-                #title=description;data;link
+                #title=description;date;link
                 darticles[item.find('title').text+"("+site+")"]=item.find('description').text+";"+item.find('pubDate').text+";"+item.find('link').text
     return darticles
 
@@ -269,6 +269,17 @@ def checkNews():
     return "ok"
 
 def checkReddit(subreddit):
-    return "ok"
-
-checkNews()
+    url="https://www.reddit.com/r/"+subreddit+".json"
+    req=urllib.request.Request(url)
+    req.add_header("content-type", "application/json")
+    context=ignoreCertificate()
+    resp=urllib.request.urlopen(req,context=context)
+    jResp=json.loads(resp.read().decode('utf-8'))
+    darticles={}
+    for item in jResp['data']['children']:
+        title=str(item['data']['title'])
+        url=str(item['data']['url'])
+        description=str(item['data']['selftext'])
+        date=str(item['data']['created_utc'])
+        darticles[title]=description+";"+date+";"+link
+    return darticles
