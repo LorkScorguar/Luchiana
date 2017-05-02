@@ -235,15 +235,27 @@ def rssParse(url):
     data=resp.read().decode('utf-8')
     root=ET.fromstring(data)
     darticles={}
+    site=""
+    if url.split(".")[1]!="feedburner":
+        site=url.split(".")[1]
+    else:
+        site=url.split("/")[-1]
     for item in root[0]:
         if item.tag=="item":
             #title=description;data;link
-            darticles[item[0].text]=item[1].text+";"+item[2].text+";"+item[3].text
+            darticles[item[0].text+"("+site+")"]=item[1].text+";"+item[2].text+";"+item[3].text
     return darticles
 
 def checkNews():
+    interestingNews={}
     for url in Config.news_url:
-        darticles=rssParse(url)
+        darticles=rssParse(url)#get recent articles for each website
+        for k,v in darticles.items():
+            for topic in Config.topics:
+                if re.search(topic,k,re.IGNORECASE) or re.search(topic,v,re.IGNORECASE):#if we found the topic, then article is interesting
+                    interestingNews[k]=v
+    for k,v in interestingNews.items():
+        print(k)
     return "ok"
 
 def checkKorben():
@@ -282,4 +294,4 @@ def checkLinuxFR():
 def checkReddit(subreddit):
     return "ok"
 
-checkXda()
+checkNews()
