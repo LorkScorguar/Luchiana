@@ -241,19 +241,9 @@ def rssParse(url):
             darticles[item[0].text]=item[1].text+";"+item[2].text+";"+item[3].text
     return darticles
 
-def checkPhoronix():
-    url="http://www.phoronix.com/rss.php"
-    darticles=rssParse(url)
-    return "ok"
-
-def checkJDG():
-    url="http://feeds2.feedburner.com/LeJournalduGeek"
-    darticles=rssParse(url)
-    return "ok"
-
-def checkClubic():
-    url="http://www.clubic.com/articles.rss"
-    darticles=rssParse(url)
+def checkNews():
+    for url in Config.news_url:
+        darticles=rssParse(url)
     return "ok"
 
 def checkKorben():
