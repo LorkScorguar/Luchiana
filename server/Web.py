@@ -237,14 +237,24 @@ def rssParse(url):
     root=ET.fromstring(data)
     darticles={}
     site=""
-    if url.split(".")[1]!="feedburner":
-        site=url.split(".")[1]
+    if re.search("www",url):
+        if url.split(".")[1]!="feedburner":
+            site=url.split(".")[1]
+        else:
+            site=url.split("/")[-1]
     else:
-        site=url.split("/")[-1]
-    for item in root[0]:
-        if item.tag=="item":
-            #title=description;data;link
-            darticles[item.find('title').text+"("+site+")"]=item.find('description').text+";"+item.find('pubDate').text+";"+item.find('link').text
+        site=url.split(".")[0]
+        site=site.split("//")[1]
+    if re.search("atom",url):
+        for item in root:
+            if item.tag=="{http://www.w3.org/2005/Atom}entry":
+                #title=description;data;link
+                darticles[item.find("{http://www.w3.org/2005/Atom}title").text+"("+site+")"]=item.find("{http://www.w3.org/2005/Atom}content").text+";"+item.find("{http://www.w3.org/2005/Atom}published").text+";"+item.find("{http://www.w3.org/2005/Atom}link").attrib['href']
+    else:
+        for item in root[0]:
+            if item.tag=="item":
+                #title=description;data;link
+                darticles[item.find('title').text+"("+site+")"]=item.find('description').text+";"+item.find('pubDate').text+";"+item.find('link').text
     return darticles
 
 def checkNews():
@@ -259,31 +269,7 @@ def checkNews():
         print(k)
     return "ok"
 
-def checkLinuxFR():
-    journaux="http://linuxfr.org/journaux.atom"
-    news="http://linuxfr.org/news.atom"
-    url=journaux
-    req=urllib.request.Request(url)
-    context=ignoreCertificate()
-    req.add_header("User-Agent", "Mozilla/5.0")
-    resp=urllib.request.urlopen(req,context=context)
-    data=resp.read().decode('utf-8')
-    root=ET.fromstring(data)
-    darticles={}
-    site=""
-    if url.split(".")[1]!="feedburner":
-        site=url.split(".")[1]
-    else:
-        site=url.split("/")[-1]
-    for item in root[0]:
-        if item.tag=="item":
-            #title=description;datae;link
-            darticles[item.find('title').text+"("+site+")"]=item.find('description').text+";"+item.find('pubDate').text+";"+item.find('link').text
-    for k,v in darticles.items():
-        print(k)
-    return "ok"
-
 def checkReddit(subreddit):
     return "ok"
 
-checkLinuxFR()
+checkNews()
