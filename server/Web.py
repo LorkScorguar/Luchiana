@@ -244,7 +244,7 @@ def rssParse(url):
     for item in root[0]:
         if item.tag=="item":
             #title=description;data;link
-            darticles[item[0].text+"("+site+")"]=item[1].text+";"+item[2].text+";"+item[3].text
+            darticles[item.find('title').text+"("+site+")"]=item.find('description').text+";"+item.find('pubDate').text+";"+item.find('link').text
     return darticles
 
 def checkNews():
@@ -262,7 +262,28 @@ def checkNews():
 def checkLinuxFR():
     journaux="http://linuxfr.org/journaux.atom"
     news="http://linuxfr.org/news.atom"
+    url=journaux
+    req=urllib.request.Request(url)
+    context=ignoreCertificate()
+    req.add_header("User-Agent", "Mozilla/5.0")
+    resp=urllib.request.urlopen(req,context=context)
+    data=resp.read().decode('utf-8')
+    root=ET.fromstring(data)
+    darticles={}
+    site=""
+    if url.split(".")[1]!="feedburner":
+        site=url.split(".")[1]
+    else:
+        site=url.split("/")[-1]
+    for item in root[0]:
+        if item.tag=="item":
+            #title=description;datae;link
+            darticles[item.find('title').text+"("+site+")"]=item.find('description').text+";"+item.find('pubDate').text+";"+item.find('link').text
+    for k,v in darticles.items():
+        print(k)
     return "ok"
 
 def checkReddit(subreddit):
     return "ok"
+
+checkLinuxFR()
