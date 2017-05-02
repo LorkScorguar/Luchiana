@@ -237,11 +237,10 @@ def rssParse(url):
     root=ET.fromstring(data)
     darticles={}
     site=""
-    if re.search("www",url):
-        if url.split(".")[1]!="feedburner":
-            site=url.split(".")[1]
-        else:
-            site=url.split("/")[-1]
+    if re.search("feedburner",url):
+        site=url.split("/")[-1]
+    elif re.search("www",url):
+        site=url.split(".")[1]
     else:
         site=url.split(".")[0]
         site=site.split("//")[1]
