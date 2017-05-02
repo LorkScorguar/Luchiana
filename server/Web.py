@@ -231,6 +231,7 @@ def getTomorrowWeather(message):
 def rssParse(url):
     req=urllib.request.Request(url)
     context=ignoreCertificate()
+    req.add_header("User-Agent", "Mozilla/5.0")
     resp=urllib.request.urlopen(req,context=context)
     data=resp.read().decode('utf-8')
     root=ET.fromstring(data)
@@ -258,27 +259,6 @@ def checkNews():
         print(k)
     return "ok"
 
-def checkKorben():
-    url="https://korben.info/feed"
-    darticles=rssParse(url)
-    for k, v in darticles.items():
-        print(k)
-    return "ok"
-
-def checkFrandroid():
-    url="http://www.frandroid.com/feed"
-    darticles=rssParse(url)
-    for k, v in darticles.items():
-        print(k)
-    return "ok"
-
-def checkPhonandroid():
-    url="http://www.phonandroid.com/feed"
-    darticles=rssParse(url)
-    for k, v in darticles.items():
-        print(k)
-    return "ok"
-
 def checkXda():
     url="http://xda-developers.com/news.rss"
     darticles=rssParse(url)
@@ -293,5 +273,3 @@ def checkLinuxFR():
 
 def checkReddit(subreddit):
     return "ok"
-
-checkNews()
