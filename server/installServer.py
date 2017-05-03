@@ -1,5 +1,14 @@
 #!/usr/bin/python3
-config="""
+"""
+Module de création du fichier de CONFIGuration
+"""
+import getpass
+import sys
+sys.path.append('server')
+import Securite
+import Database
+
+CONFIG = """
 #LuchianaServer
 port=9998
 address=IPADDRESS
@@ -35,32 +44,26 @@ topics=[TOPICS]
 reddit=[REDDIT]
 """
 
-import getpass
-import sys
-sys.path.append('server')
-import Securite
-
-fichier=open("Config.py","w")
-ip=input("Quelle est votre adresse ip?")
-clef=input("Entrer la clef qui sera utiliser pour chiffrer les informations critiques: ")
-email=input("Entrer le compte gmail réservé pour votre IA, ou le votre: ")
-password=getpass.getpass("Entrer le mot de passe associé: ")
-freebase=input("Entrer votre clef api pour freebase:")
-weather=input("Entrer votre clef api pour openweathermap:")
-news_url=input("Entrer les urls des fluxs rss que vous voulez suivre (séparé par des virgules): ")
-topics=input("Enter la liste des sujets qui vous intéressent (séparé par des virgules): ")
-reddit=input("Enter la liste des subreddit qui vous intéressent (séparé par des virgules): ")
-config=config.replace("IPADDRESS","'"+ip+"'")
-config=config.replace("CLEF","'"+clef+"'")
-config=config.replace("EMAIL","'"+email+"'")
-config=config.replace("FREEBASE_KEY","'"+freebase+"'")
-config=config.replace("OPENWEATHER_KEY","'"+weather+"'")
-config=config.replace("PASSWORD","'"+Securite.vigenere(password,clef,"1")+"'")
-config=config.replace("NEWS_URL",'","'.join(news_url.split(","))+'"')
-config=config.replace("TOPICS",'"'+'","'.join(topics.split(","))+'"')
-config=config.replace("REDDIT",'"'+'","'.join(reddit.split(","))+'"')
-fichier.write(config)
+fichier = open("CONFIG.py", "w")
+ip = input("Quelle est votre adresse ip?")
+clef = input("Entrer la clef qui sera utiliser pour chiffrer les informations critiques: ")
+email = input("Entrer le compte gmail réservé pour votre IA, ou le votre: ")
+password = getpass.getpass("Entrer le mot de passe associé: ")
+freebase = input("Entrer votre clef api pour freebase:")
+weather = input("Entrer votre clef api pour openweathermap:")
+news_url = input("Entrer les urls des fluxs rss que vous voulez suivre (séparé par des virgules): ")
+topics = input("Enter la liste des sujets qui vous intéressent (séparé par des virgules): ")
+reddit = input("Enter la liste des subreddit qui vous intéressent (séparé par des virgules): ")
+CONFIG = CONFIG.replace("IPADDRESS", "'"+ip+"'")
+CONFIG = CONFIG.replace("CLEF", "'"+clef+"'")
+CONFIG = CONFIG.replace("EMAIL", "'"+email+"'")
+CONFIG = CONFIG.replace("FREEBASE_KEY", "'"+freebase+"'")
+CONFIG = CONFIG.replace("OPENWEATHER_KEY", "'"+weather+"'")
+CONFIG = CONFIG.replace("PASSWORD", "'"+Securite.vigenere(password, clef, "1")+"'")
+CONFIG = CONFIG.replace("NEWS_URL", '","'.join(news_url.split(","))+'"')
+CONFIG = CONFIG.replace("TOPICS", '"'+'","'.join(topics.split(","))+'"')
+CONFIG = CONFIG.replace("REDDIT", '"'+'","'.join(reddit.split(","))+'"')
+fichier.write(CONFIG)
 fichier.close()
 
-import Database
 Database.run()
