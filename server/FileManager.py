@@ -1,77 +1,71 @@
+"""
+Module de gestion d'envoie/réception de fichiers
+"""
 import base64
 import subprocess
 import re
-import builtins
 
-def sendFichier(codeErreur=0,phrase="",infos=[]):
-    rep=""
-    if codeErreur==0:
-        try:
-            m=re.search("[A-Za-z]*.\.[A-Za-z]*",phrase)
-            fileName=m.group(0)
-            res,inf=searchFile(codeErreur,fileName,infos)
-            if inf[1]==0:#un seul fichier
-                rep=convertFileToSend(res)
-                builtins.sendHandler.sendFile(rep,fileName)
-                rep="Fichier envoyé"
-            else:
-                rep=res
-            infos=inf
-        except:
-            rep="Je n'ai pas compris le nom du fichier"
-            infos=["fichier",1,"FileManager.sendFichier"]
-    else:
-        res,inf=searchFile(codeErreur,phrase,infos)
-        rep=convertFileToSend(res)
-        builtins.sendHandler.sendFile(rep,infos[2])
-        rep="Fichier envoyé"
-        infos=inf
-    infos[len(infos)-1]="FileManager.sendFichier"
-    return rep,infos
+def sendFichier(code_erreur=0, phrase="", infos=[]):
+    """Fonction utiliser pour envoyer un fichier après l'avoir convertit en base64"""
+    rep = ""
+    try:
+        regex = re.search(r"[A-Za-z]*.\.[A-Za-z]*", phrase)
+        file_name = regex.group(0)
+        res, inf = searchFile(code_erreur, file_name, infos)
+        if inf[1] == 0:#un seul fichier
+            rep = convertFileToSend(res)
+        else:
+            rep = res
+        infos = inf
+    except:
+        rep = "Je n'ai pas compris le nom du fichier"
+    return rep, infos
 
-def searchFile(codeErreur=0,fileName="",infos=[]):
-    rep=""
-    if codeErreur==0:
-        path=""
+def searchFile(code_erreur=0, file_name="", infos=[]):
+    """Fonction pour chercher un fichier sur le système"""
+    rep = ""
+    if code_erreur == 0:
+        path = ""
         try:
-            lpath2=[]
-            r=subprocess.check_output("locate "+fileName,shell=True)
-            lpath=r.decode().split("\n")
+            lpath2 = []
+            res = subprocess.check_output("locate "+file_name, shell=True)
+            lpath = res.decode().split("\n")
             for elem in lpath:
-                if elem!="":
-                    lpath2.append(elem)        
-            if len(lpath2)==1:
-                rep=lpath2[0]
+                if elem != "":
+                    lpath2.append(elem)
+            if len(lpath2) == 1:
+                rep = lpath2[0]
             else:
-                codeErreur=1
-                rep="Plusieurs fichiers trouvés, lequel convient:\n"
-                i=0
+                code_erreur = 1
+                rep = "Plusieurs fichiers trouvés, lequel convient:"
+                i = 0
                 for path in lpath2:
-                    rep+=str(i)+")"+path+"\n"
-                    i+=1
-                path=lpath2
+                    rep += "\n "+i+")"+path
+                    i += 1
+                path = lpath2
         except:
-            rep="Aucun fichier trouvé"
-            codeErreur=2
+            rep = "Aucun fichier trouvé"
+            code_erreur = 2
     else:
+        i = 0
         for i in range(len(infos[3])):
-            if i==int(fileName):
-                rep=infos[3][i]
-        codeErreur=0
-        fileName=""
-        path=""
-    infos=["fichier",codeErreur,fileName,path,"FileManager.searchFile"]
-    return rep,infos
+            if i == file_name:
+                rep = infos[3][i]
+        code_erreur = 0
+        file_name = ""
+        path = ""
+    infos = ["fichier", code_erreur, file_name, path, "FileManager.searchFile"]
+    return rep, infos
 
 def convertFileToSend(file):
-    fichier=open(file,"rb").read()
-    data=base64.b64encode(fichier)
+    """Convert a file to base64 string"""
+    fichier = open(file, "rb").read()
+    data = base64.b64encode(fichier)
     return data
 
-def convertFileReceive(data,fileName):
-    file=open("fichiers/"+fileName,"wb")
-    data2=base64.b64decode(data)
+def convertFileReceive(data, file_name):
+    """Convertit une string base64 en fichier"""
+    file = open("fichiers/"+file_name, "wb")
+    data2 = base64.b64decode(data)
     file.write(data2)
     return "ok"
-
-
