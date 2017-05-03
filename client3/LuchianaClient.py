@@ -109,7 +109,7 @@ CONNECT = connection()
 #import Proxy
 #Proxy.connectProxy('https')
 if CONNECT == 1:
-    RES = Client.notify("notif;Connection;Vous etes desormais"
+    RES = Client.notify("notif;Connection;Vous etes desormais "
                         "connecte a Luchiana;1")
     if RES == "ko":
         print("\n-->Vous etes desormais connecte a Luchiana")
