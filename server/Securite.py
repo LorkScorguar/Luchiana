@@ -2,8 +2,9 @@
 module contenant les fonction de securite
 chiffrement, dechiffrement, decryptage etc
 """
-DICO = []
+
 global DICO
+DICO = []
 
 
 def vigenere(phrase, clef, operation):
@@ -53,7 +54,7 @@ def cherche_anagramme(mot):
 def init():
     """Charge le dictionnaire en ram"""
     global DICO
-    dic = open("DICO/DICO-fr.txt", "r")
+    dic = open("dico/dico-fr.txt", "r")
     for line in dic:
         DICO.append(line.strip())
 
