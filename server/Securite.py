@@ -3,7 +3,6 @@ module contenant les fonction de securite
 chiffrement, dechiffrement, decryptage etc
 """
 
-global DICO
 DICO = []
 
 

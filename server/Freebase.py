@@ -14,7 +14,6 @@ import Config
 #2:pas trouve
 #verification du type
 
-global lfilter
 #patern,filtre|filtre2
 lfilter = ["(date|annee).*naissance", "/people/person/date_of_birth",\
            "metier|profession", "/people/person/profession",\
