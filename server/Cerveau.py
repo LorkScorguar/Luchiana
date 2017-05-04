@@ -12,6 +12,7 @@ from random import choice
 import Proxy
 import Freebase
 import System
+import Web
 import Math
 import Mail
 import Config
@@ -48,8 +49,6 @@ def analyse(phrase, username):
         if re.search(r"(calcul|combien|pythagore|thales|perimetre|surface|"\
                      r"volume|triangle){1, }[-+*\/]?\d+", phrase,\
                      re.IGNORECASE) or re.search(r"([-+*\/]+\d+)+", phrase):
-            if re.search("[triangle, rectangle]", phrase, re.IGNORECASE):
-                phrase += " pythagore"
             typ = "T"
             rep = Math.run(phrase)
         else:
