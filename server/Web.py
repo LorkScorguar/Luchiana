@@ -164,7 +164,7 @@ def getBtcValue():
     resp = urllib.request.urlopen(req, context=contex)
     jResp = json.loads(resp.read().decode('utf-8'))
     infos = ["web", 0, "Web.getBtcValue"]
-    return jResp['EUR']['24h'], infos
+    return str(jResp['EUR']['24h']), infos
 
 def getMoneroValue():
     """Récupére la valeur en euro d'un Monero"""
@@ -193,7 +193,7 @@ def getMoneroValue():
             regex = re.search(r"\d*\.\d*", tmp)
             price = float(regex.group(0))/float(rate)
     infos = ["web", 0, "Web.getMoneroValue"]
-    return price, infos
+    return str(price), infos
 
 def getWeather(message):
     """Récupére la météo du jour"""
