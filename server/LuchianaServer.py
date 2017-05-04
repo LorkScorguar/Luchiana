@@ -22,7 +22,7 @@ if __name__ == '__main__':
     HOST, PORT = Config.address, Config.port
     LS = Server.ThreadedTCPServer((HOST, PORT), Server.ThreadedTCPRequestHandler)
     Securite.init()
-    Cerveau.init()
+    #Cerveau.init()
     builtins.init = 0
     SERVER_THREAD = threading.Thread(target=LS.serve_forever)
     SERVER_THREAD.start()
