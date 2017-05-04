@@ -305,9 +305,10 @@ def checkNews():
                     viewed.append(k.strip())
     fich.write("web="+";,;".join(viewed)+"\r\n")
     fich.close()
+    res = ""
     for k, v in dinterestingNews.items():
-        print(k, "("+v.split(";")[0]+")")
-    return "ok"
+        res += k+" ("+v.split(";")[0]+")\r\n"
+    return res
 
 def getReddit(subreddit):
     """Fonction de récupération des tous les topics d'un subbreddit"""
@@ -352,6 +353,13 @@ def checkReddit():
             viewed.append(k.strip())
     fich.write("reddit="+";,;".join(viewed)+"\r\n")
     fich.close()
+    res = ""
     for k, v in dinterestingReddit.items():
-        print(k, "("+v.split(";")[0]+")")
-    return dinterestingReddit
+        res += k+" (r/"+v.split(";")[0]+")\r\n"
+    return res
+
+if __name__ == '__main__':
+    cnews = checkNews()
+    creddit = checkReddit()
+    print(cnews)
+    print(creddit)
