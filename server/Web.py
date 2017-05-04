@@ -308,7 +308,8 @@ def checkNews():
     res = ""
     for k, v in dinterestingNews.items():
         res += k+" ("+v.split(";")[0]+")\r\n"
-    return res
+    infos = ["web", 0, "Web.checkNews"]
+    return res, infos
 
 def getReddit(subreddit):
     """Fonction de récupération des tous les topics d'un subbreddit"""
@@ -356,7 +357,8 @@ def checkReddit():
     res = ""
     for k, v in dinterestingReddit.items():
         res += k+" (r/"+v.split(";")[0]+")\r\n"
-    return res
+    infos = ["web", 0, "Web.checkReddit"]
+    return res, infos
 
 if __name__ == '__main__':
     cnews = checkNews()
