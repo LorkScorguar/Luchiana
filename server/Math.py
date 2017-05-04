@@ -127,6 +127,8 @@ def calcul(texte):
         if temp[i] == "tangente":
             temp[i] = "math.tan("+temp[i+1]+")"
             del temp[i+1]
+        if temp[i] == "calcul" or temp[i] == "combien":
+            del temp[i]
     for i in range(len(temp)):
         if re.search("pi", temp[i]):
             temp[i] = temp[i].replace("pi", str(math.pi))
@@ -237,6 +239,7 @@ def run(texte):
     #print(str(res))
     return res
 
-#texte=input("entrer du texte")
-#res=run(texte)
-#print(res)
+if __name__ == '__main__':
+    texte = input("entrer du texte: ")
+    res = run(texte)
+    print(res)
