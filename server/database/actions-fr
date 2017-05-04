@@ -43,6 +43,8 @@ quelle.*valeur.*(monero|xmr).*?;python;Web.getMoneroValue();Un monero vaut %OUT%
 combien.*vaut.*(monero|xmr).*?;python;Web.getMoneroValue();Un monero vaut %OUT% euros
 quel.*(temps|meteo|météo).*?;python;Web.getWeather( %IN% );%OUT%
 quel.*(temps|meteo|météo).*demain?;python;Web.getTomorrowWeather( %IN% );%OUT%
+news;python;Web.checkNews();%OUT%
+reddit;python;Web.checkReddit();%OUT%
 #Mail/Gmail
 envoie.*mail;python;Mail.envoieMail();%OUT%
 v(e|é)rifie.*(mails|mail);python;Mail.checkGmail();Il y a %OUT% mails non lus
