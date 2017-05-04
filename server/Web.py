@@ -280,7 +280,7 @@ def rssParse(url):
 
 def checkNews():
     """Récupére toutes les news et retournent celles intéressantes"""
-    interestingNews = {}
+    dinterestingNews = {}
     #check if item has already been presented to user
     for url in Config.news_url:
         darticles = rssParse(url)#get recent articles for each website
@@ -288,8 +288,8 @@ def checkNews():
             for topic in Config.topics:
                 if re.search(topic, k, re.IGNORECASE) or re.search(topic, v, re.IGNORECASE):
                 #if we found the topic, then article is interesting
-                    interestingNews[k] = v
-    for k, v in interestingNews.items():
+                    dinterestingNews[k] = v
+    for k, v in dinterestingNews.items():
         print(k)
     return "ok"
 
@@ -298,6 +298,7 @@ def getReddit(subreddit):
     url = "https://www.reddit.com/r/"+subreddit+".json"
     req = urllib.request.Request(url)
     req.add_header("content-type", "application/json")
+    req.add_header("User-Agent", "Luchiana 3.0")
     contex = ignoreCertificate()
     resp = urllib.request.urlopen(req, context=contex)
     jResp = json.loads(resp.read().decode('utf-8'))
@@ -312,6 +313,27 @@ def getReddit(subreddit):
 
 def checkReddit():
     """fonction de récupération des topics intéressants"""
+    dinterestingReddit = {}
+    try:
+        fich = open("database/previous_web", "r")
+        for line in fich:
+            if re.search("reddit", line):
+                redd = line.split("=")[1]
+            if re.search("web", line):
+                web = line.split("=")[1]
+        fich.close()
+    except FileNotFoundError:
+        redd = ""
+        web = ""
+    fich = open("database/previous_web", "w")
+    fich.write("web="+web+"\r\n")
+    viewed=[]
     for sub in Config.reddit:
         darticles = getReddit(sub)
-        #check if item has already been presented to user
+        for k, v in darticles.items():
+            if k not in redd.split(";,;"):
+                dinterestingReddit[k] = v
+            viewed.append(k)
+    fich.write("reddit="+";,;".join(viewed)+"\r\n")
+    fich.close()
+    return dinterestingReddit
