@@ -309,6 +309,8 @@ def checkNews():
     for k, v in dinterestingNews.items():
         res += k+" ("+v.split(";")[0]+")\r\n"
     infos = ["web", 0, "Web.checkNews"]
+    if res == "":
+        res = "Pas de nouveautés trouvées"
     return res, infos
 
 def getReddit(subreddit):
@@ -358,6 +360,8 @@ def checkReddit():
     for k, v in dinterestingReddit.items():
         res += k+" (r/"+v.split(";")[0]+")\r\n"
     infos = ["web", 0, "Web.checkReddit"]
+    if res == "":
+        res = "Pas de nouveautés trouvées"
     return res, infos
 
 if __name__ == '__main__':
