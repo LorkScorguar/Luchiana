@@ -247,7 +247,7 @@ def rssParse(url):
     """Simple parser de RSS"""
     req = urllib.request.Request(url)
     contex = ignoreCertificate()
-    req.add_header("User-Agent", "Mozilla/5.0")
+    req.add_header("User-Agent", "Luchiana 3.0")
     resp = urllib.request.urlopen(req, context=contex)
     data = resp.read().decode('utf-8')
     root = ET.fromstring(data)
@@ -273,7 +273,7 @@ def rssParse(url):
         for item in root[0]:
             if item.tag == "item":
                 #title=description;date;link
-                darticles[item.find('title').text+"("+site+")"] = \
+                darticles[item.find('title').text] = site+";"+\
                 item.find('description').text+";"+item.find('pubDate').text+\
                 ";"+item.find('link').text
     return darticles
@@ -281,16 +281,32 @@ def rssParse(url):
 def checkNews():
     """Récupére toutes les news et retournent celles intéressantes"""
     dinterestingNews = {}
-    #check if item has already been presented to user
+    try:
+        fich = open("database/previous_web", "r")
+        for line in fich:
+            if re.search("reddit", line):
+                redd = line.split("=")[1]
+            if re.search("web", line):
+                web = line.split("=")[1]
+        fich.close()
+    except FileNotFoundError:
+        redd = ""
+        web = ""
+    fich = open("database/previous_web", "w")
+    fich.write("reddit="+redd+"\r\n")
+    viewed = []
     for url in Config.news_url:
         darticles = rssParse(url)#get recent articles for each website
         for k, v in darticles.items():
             for topic in Config.topics:
                 if re.search(topic, k, re.IGNORECASE) or re.search(topic, v, re.IGNORECASE):
-                #if we found the topic, then article is interesting
-                    dinterestingNews[k] = v
+                    if k.strip() not in web.split(";,;"):
+                        dinterestingNews[k] = v
+                    viewed.append(k.strip())
+    fich.write("web="+";,;".join(viewed)+"\r\n")
+    fich.close()
     for k, v in dinterestingNews.items():
-        print(k)
+        print(k, "("+v.split(";")[0]+")")
     return "ok"
 
 def getReddit(subreddit):
@@ -308,7 +324,7 @@ def getReddit(subreddit):
         url = str(item['data']['url'])
         description = str(item['data']['selftext'])
         date = str(item['data']['created_utc'])
-        darticles[title] = description+";"+date+";"+url
+        darticles[title] =  subreddit+";"+description+";"+date+";"+url
     return darticles
 
 def checkReddit():
@@ -327,13 +343,15 @@ def checkReddit():
         web = ""
     fich = open("database/previous_web", "w")
     fich.write("web="+web+"\r\n")
-    viewed=[]
+    viewed = []
     for sub in Config.reddit:
         darticles = getReddit(sub)
         for k, v in darticles.items():
-            if k not in redd.split(";,;"):
+            if k.strip() not in redd.split(";,;"):
                 dinterestingReddit[k] = v
-            viewed.append(k)
+            viewed.append(k.strip())
     fich.write("reddit="+";,;".join(viewed)+"\r\n")
     fich.close()
+    for k, v in dinterestingReddit.items():
+        print(k, "("+v.split(";")[0]+")")
     return dinterestingReddit
