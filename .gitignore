@@ -3,3 +3,4 @@ server/Config.py
 */__pycache__
 server/logs
 server/suivi
+server/database/previous_web
