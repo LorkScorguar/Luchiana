@@ -163,8 +163,11 @@ def getBtcValue():
     req = urllib.request.Request(url)
     req.add_header("content-type", "application/json")
     contex = ignoreCertificate()
-    resp = urllib.request.urlopen(req, context=contex)
-    jResp = json.loads(resp.read().decode('utf-8'))
+    try:
+        resp = urllib.request.urlopen(req, context=contex)
+        jResp = json.loads(resp.read().decode('utf-8'))
+    except:
+        price=-1
     infos = ["web", 0, "Web.getBtcValue"]
     return str(jResp['EUR']['24h']), infos
 
@@ -175,25 +178,28 @@ def getMoneroValue():
     url = "https://coinmarketcap.com/#EUR"
     req = urllib.request.Request(url)
     contex = ignoreCertificate()
-    resp = urllib.request.urlopen(req, context=contex)
-    data = resp.read().decode('utf-8')
-    rates = data.split("<div id=\"currency-exchange-rates\"")[1]
-    rates = rates.split("></div>")[0]
-    lrate = rates.split("\n")
-    for item in lrate:
-        if re.search("eur", item):
-            rate = item.split("=")[1]
-            rate = rate.replace("\"", "")
-    data = data.split("<table class=\"table\" id=\"currencies\">")[1]
-    data = data.split("</table>")[0]
-    currencies = data.split("<tr id=")
-    del currencies[0]#remove table headers
-    for currency in currencies:
-        if "id-monero" in currency:
-            tmp = currency.split("class=\"price\"")[1]
-            tmp = tmp.split("data-btc")[0]
-            regex = re.search(r"\d*\.\d*", tmp)
-            price = float(regex.group(0))/float(rate)
+    try:
+        resp = urllib.request.urlopen(req, context=contex)
+        data = resp.read().decode('utf-8')
+        rates = data.split("<div id=\"currency-exchange-rates\"")[1]
+        rates = rates.split("></div>")[0]
+        lrate = rates.split("\n")
+        for item in lrate:
+            if re.search("eur", item):
+                rate = item.split("=")[1]
+                rate = rate.replace("\"", "")
+        data = data.split("<table class=\"table\" id=\"currencies\">")[1]
+        data = data.split("</table>")[0]
+        currencies = data.split("<tr id=")
+        del currencies[0]#remove table headers
+        for currency in currencies:
+            if "id-monero" in currency:
+                tmp = currency.split("class=\"price\"")[1]
+                tmp = tmp.split("data-btc")[0]
+                regex = re.search(r"\d*\.\d*", tmp)
+                price = float(regex.group(0))/float(rate)
+    except:
+        price=-1
     infos = ["web", 0, "Web.getMoneroValue"]
     return str(price), infos
 
@@ -334,15 +340,19 @@ def getReddit(subreddit):
     req.add_header("content-type", "application/json")
     req.add_header("User-Agent", "Luchiana 3.0")
     contex = ignoreCertificate()
-    resp = urllib.request.urlopen(req, context=contex)
-    jResp = json.loads(resp.read().decode('utf-8'))
     darticles = {}
-    for item in jResp['data']['children']:
-        title = str(item['data']['title'])
-        url = str(item['data']['url'])
-        description = str(item['data']['selftext'])
-        date = str(item['data']['created_utc'])
-        darticles[title] =  subreddit+";"+description+";"+date+";"+url
+    try:
+        resp = urllib.request.urlopen(req, context=contex)
+        jResp = json.loads(resp.read().decode('utf-8'))
+        for item in jResp['data']['children']:
+            title = str(item['data']['title'])
+            url = str(item['data']['url'])
+            description = str(item['data']['selftext'])
+            date = str(item['data']['created_utc'])
+            darticles[title] =  subreddit+";"+description+";"+date+";"+url
+    except:
+        darticles["Erreur de récupération ("+subreddit+")"] = "Erreur de"\
+                                                         " récupération ("+subreddit+")"
     return darticles
 
 def checkReddit():
