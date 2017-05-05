@@ -39,6 +39,7 @@ import ssl
 import json
 import datetime
 import builtins
+import threading
 import xml.etree.ElementTree as ET
 
 import Config
@@ -282,6 +283,7 @@ def rssParse(url):
 def checkNews():
     """Récupére toutes les news et retournent celles intéressantes"""
     dinterestingNews = {}
+    web, redd = "", ""
     try:
         fich = open("database/previous_web", "r")
         for line in fich:
@@ -336,6 +338,7 @@ def getReddit(subreddit):
 def checkReddit():
     """fonction de récupération des topics intéressants"""
     dinterestingReddit = {}
+    web, redd = "", ""
     try:
         fich = open("database/previous_web", "r")
         for line in fich:
@@ -375,7 +378,8 @@ def check(what):
         threadCheck = threading.Thread(None, checkNews, None)
     threadCheck.start()
     inf = "Recherche lancée"
-    return inf
+    infos = ["web", 0, "Web.check"]
+    return inf,infos
 
 
 if __name__ == '__main__':
