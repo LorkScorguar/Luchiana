@@ -38,6 +38,7 @@ import re
 import ssl
 import json
 import datetime
+import builtins
 import xml.etree.ElementTree as ET
 
 import Config
@@ -311,6 +312,7 @@ def checkNews():
     infos = ["web", 0, "Web.checkNews"]
     if res == "":
         res = "Pas de nouveautés trouvées"
+    builtins.sendHandler.sendMsg("T", res)
     return res, infos
 
 def getReddit(subreddit):
@@ -362,7 +364,19 @@ def checkReddit():
     infos = ["web", 0, "Web.checkReddit"]
     if res == "":
         res = "Pas de nouveautés trouvées"
+    builtins.sendHandler.sendMsg("T", res)
     return res, infos
+
+def check(what):
+    """Thread la recherche de news ou update reddit"""
+    if re.search("reddit", what):
+        threadCheck = threading.Thread(None, checkReddit, None)
+    else:
+        threadCheck = threading.Thread(None, checkNews, None)
+    threadCheck.start()
+    inf = "Recherche lancée"
+    return inf
+
 
 if __name__ == '__main__':
     cnews = checkNews()
