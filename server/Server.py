@@ -1,5 +1,12 @@
 """
 Module de gestion de la communication avec le client
+Les messages ont la forme suivante:
+- type;message
+Le type peut être:
+- L: pour le login
+- T: pour du texte simple
+- F: pour un fichier
+- N: pour une notification
 """
 import threading
 import socketserver
