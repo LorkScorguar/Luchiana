@@ -59,7 +59,7 @@ def sendFile(data, file_name):
 def receiveMsg():
     """Permet de recevoir un message"""
     rec = sock.recv(1024).strip()
-    recd = rec.decode()
+    recd = rec.decode('utf-8','ignore')
     temp = recd.split(";")
     typ = temp[0]
     if typ == "F":
