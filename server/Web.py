@@ -207,13 +207,16 @@ def getWeather(message):
           "&lang=fr&units=metric&q="+city
     req = urllib.request.Request(url)
     req.add_header("content-type", "application/json")
-    contex = ignoreCertificate()
-    resp = urllib.request.urlopen(req, context=contex)
-    jResp = json.loads(resp.read().decode('utf-8'))
-    #print(jResp)
-    res = "La météo à "+city+" est "+str(jResp['weather'][0]['description'])+\
-          " ("+str(jResp['main']['temp_min'])+"°C-"+\
-          str(jResp['main']['temp_max'])+"°C)"
+    contex = ignoreCertificate
+    try:
+        resp = urllib.request.urlopen(req, context=contex)
+        jResp = json.loads(resp.read().decode('utf-8'))
+        #print(jResp)
+        res = "La météo à "+city+" est "+str(jResp['weather'][0]['description'])+\
+              " ("+str(jResp['main']['temp_min'])+"°C-"+\
+              str(jResp['main']['temp_max'])+"°C)"
+    except:
+        res="Erreur de récupération de la météo"
     infos = ["web", 0, "Web.getWeather"]
     return res, infos
 
@@ -226,22 +229,25 @@ def getTomorrowWeather(message):
     req = urllib.request.Request(url)
     req.add_header("content-type", "application/json")
     contex = ignoreCertificate()
-    resp = urllib.request.urlopen(req, context=contex)
-    jResp = json.loads(resp.read().decode('utf-8'))
-    tomorrow = datetime.datetime.now()+datetime.timedelta(days=1)
-    dweather = {}
-    ltemp = []
-    for item in jResp['list']:
-        if re.search(tomorrow.strftime("%Y-%m-%d"), item['dt_txt']):
-            if item['weather'][0]['description'] not in dweather.keys():
-                dweather[item['weather'][0]['description']] = 1
-            else:
-                dweather[item['weather'][0]['description']] += 1
-            ltemp.append(item['main']['temp_min'])
-            ltemp.append(item['main']['temp_max'])
-    weather = max(dweather, key=dweather.get)
-    res = "Demain, la météo à "+city+" sera "+str(weather)+\
-          " ("+str(min(ltemp))+"°C-"+str(max(ltemp))+"°C)"
+    try:
+        resp = urllib.request.urlopen(req, context=contex)
+        jResp = json.loads(resp.read().decode('utf-8'))
+        tomorrow = datetime.datetime.now()+datetime.timedelta(days=1)
+        dweather = {}
+        ltemp = []
+        for item in jResp['list']:
+            if re.search(tomorrow.strftime("%Y-%m-%d"), item['dt_txt']):
+                if item['weather'][0]['description'] not in dweather.keys():
+                    dweather[item['weather'][0]['description']] = 1
+                else:
+                    dweather[item['weather'][0]['description']] += 1
+                ltemp.append(item['main']['temp_min'])
+                ltemp.append(item['main']['temp_max'])
+        weather = max(dweather, key=dweather.get)
+        res = "Demain, la météo à "+city+" sera "+str(weather)+\
+              " ("+str(min(ltemp))+"°C-"+str(max(ltemp))+"°C)"
+    except:
+        res="Erreur de récupération de la météo"
     infos = ["web", 0, "Web.getTomorrowWeather"]
     return res, infos
 
@@ -250,9 +256,6 @@ def rssParse(url):
     req = urllib.request.Request(url)
     contex = ignoreCertificate()
     req.add_header("User-Agent", "Luchiana 3.0")
-    resp = urllib.request.urlopen(req, context=contex)
-    data = resp.read().decode('utf-8')
-    root = ET.fromstring(data)
     darticles = {}
     site = ""
     if re.search("feedburner", url):
@@ -262,22 +265,29 @@ def rssParse(url):
     else:
         site = url.split(".")[0]
         site = site.split("//")[1]
-    if re.search("atom", url):
-        for item in root:
-            if item.tag == "{http://www.w3.org/2005/Atom}entry":
-                #title=description;date;link
-                darticles[item.find("{http://www.w3.org/2005/Atom}title").text+\
-                "("+site+")"] = \
-                item.find("{http://www.w3.org/2005/Atom}content").text+";"+\
-                item.find("{http://www.w3.org/2005/Atom}published").text+";"+\
-                item.find("{http://www.w3.org/2005/Atom}link").attrib['href']
-    else:
-        for item in root[0]:
-            if item.tag == "item":
-                #title=description;date;link
-                darticles[item.find('title').text] = site+";"+\
-                item.find('description').text+";"+item.find('pubDate').text+\
-                ";"+item.find('link').text
+    try:
+        resp = urllib.request.urlopen(req, context=contex)
+        data = resp.read().decode('utf-8')
+        root = ET.fromstring(data)
+        if re.search("atom", url):
+            for item in root:
+                if item.tag == "{http://www.w3.org/2005/Atom}entry":
+                    #title=description;date;link
+                    darticles[item.find("{http://www.w3.org/2005/Atom}title").text+\
+                    "("+site+")"] = \
+                    item.find("{http://www.w3.org/2005/Atom}content").text+";"+\
+                    item.find("{http://www.w3.org/2005/Atom}published").text+";"+\
+                    item.find("{http://www.w3.org/2005/Atom}link").attrib['href']
+        else:
+            for item in root[0]:
+                if item.tag == "item":
+                    #title=description;date;link
+                    darticles[item.find('title').text] = site+";"+\
+                    item.find('description').text+";"+item.find('pubDate').text+\
+                    ";"+item.find('link').text
+    except:
+        darticles["Erreur de récupération ("+site+")"] = "Erreur de"\
+                                                         " récupération ("+site+")"
     return darticles
 
 def checkNews():
