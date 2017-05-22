@@ -9,6 +9,7 @@ import builtins
 import subprocess
 
 import Mail
+import Scheduler
 
 class Monitor():
     """Classe de monitoring du serveur"""
@@ -60,6 +61,9 @@ class Monitor():
         res = subprocess.check_output("sudo updatedb")
         return res
 
+    def checkSched():
+        res = Scheduler.checkSchedule()
+
 
 class MyMonitoringThread(threading.Thread):
     """Classe pour threader le monitoring"""
@@ -75,6 +79,7 @@ class MyMonitoringThread(threading.Thread):
             used_mem = mon.memUsage()
             received_mail = mon.checkMail()
             mon.updateFiledb()
+            checkSched()
             if builtins.init == 1:
                 if used_mem > 80:
                     builtins.sendHandler.sendMsg("N",\
