@@ -60,6 +60,7 @@ class Monitor():
         res = subprocess.check_output("sudo updatedb")
         return res
 
+
 class MyMonitoringThread(threading.Thread):
     """Classe pour threader le monitoring"""
     def __init__(self, nom=''):
@@ -73,6 +74,7 @@ class MyMonitoringThread(threading.Thread):
             used_cpu = mon.cpuUsage()
             used_mem = mon.memUsage()
             received_mail = mon.checkMail()
+            mon.updateFiledb()
             if builtins.init == 1:
                 if used_mem > 80:
                     builtins.sendHandler.sendMsg("N",\
