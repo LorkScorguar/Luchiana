@@ -87,7 +87,7 @@ def analyse(phrase, username):
                 resOut, INFOS = eval(act)
                 ACTION = INFOS[0]
                 CODE = INFOS[1]
-            listeMot = rep.split(" ")
+            """listeMot = rep.split(" ")
             #remplacement des %IN% et %OUT% dans la réponse
             #si reponse directe
             if typeAct != "python" or (typeAct == "python" and CODE == 0):
@@ -101,7 +101,13 @@ def analyse(phrase, username):
                 for i in range(len(listeMot)):
                     if listeMot[i].strip() == "%IN%":
                         listeMot[i] = resIn.strip()
-                rep = " ".join(listeMot)
+                rep = " ".join(listeMot)"""
+                try:
+                    resOut = resOut.decode()
+                except:
+                    resOut = resOut
+                rep = rep.replace("%IN%",resIn.strip())
+                rep = rep.replace("%OUT%",resOut.strip())
             else:# si besoin de precision,  on affiche le resultat de la fonction
                 try:
                     rep = resOut.decode()
@@ -129,7 +135,7 @@ def analyse(phrase, username):
                 INFOS = []
                 listRep = reponse.split("/")
                 rep = choice(listRep)
-                listeMot = rep.split(" ")
+                """listeMot = rep.split(" ")
                 for i in range(len(listeMot)):
                     if listeMot[i].strip() == "%OUT%":
                         try:
@@ -140,7 +146,13 @@ def analyse(phrase, username):
                 for i in range(len(listeMot)):
                     if listeMot[i].strip() == "%IN%":
                         listeMot[i] = resIn.strip()
-                rep = " ".join(listeMot)
+                rep = " ".join(listeMot)"""
+                try:
+                    resOut = resOut.decode()
+                except:
+                    resOut = resOut
+                rep = rep.replace("%IN%",resIn.strip())
+                rep = rep.replace("%OUT%",resOut.strip())
             else:
                 ACTION = ""
                 CODE = 0
