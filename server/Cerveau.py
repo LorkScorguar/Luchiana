@@ -5,6 +5,7 @@ Permet de trouver la réponse la plus appropriée pour chaque question
 #Modules de base
 import re
 import datetime
+import os
 import subprocess
 from random import choice
 
