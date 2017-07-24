@@ -2,6 +2,7 @@
 module contenant les fonction de securite
 chiffrement, dechiffrement, decryptage etc
 """
+import os
 
 DICO = []
 
@@ -53,7 +54,8 @@ def cherche_anagramme(mot):
 def init():
     """Charge le dictionnaire en ram"""
     global DICO
-    dic = open("dico/dico-fr.txt", "r")
+    script_dir = os.path.dirname(__file__)
+    dic = open(script_dir+"/dico/dico-fr.txt", "r")
     for line in dic:
         DICO.append(line.strip())
 
