@@ -9,6 +9,8 @@ import socket
 import atexit
 import sys
 import re
+import os
+
 import Securite
 
 CLEF = "toreplace"
@@ -27,7 +29,7 @@ except:
     print("No readline on Windows")
 
 
-HISTFILE = ".luchiana_history"
+HISTFILE = os.path.dirname(__file__)+"/.luchiana_history"
 try:
     readline.read_history_file(HISTFILE)
 except:
