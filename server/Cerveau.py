@@ -54,7 +54,7 @@ def analyse(phrase, username):
         else:
             possible = 0
             for fich in listeFichiers:
-                fichier = open("database/"+fich, "r")
+                fichier = open(os.path.dirname(__file__)+"/database/"+fich, "r")
                 for ligne in fichier:
                     temp = ligne.split(";")
                     mots = temp[0]

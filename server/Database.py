@@ -3,8 +3,9 @@ Module de gestion de la base de données
 """
 import hashlib
 import getpass
+import os
 
-USER_FILE = "database/users"
+USER_FILE = os.path.dirname(__file__)+"/database/users"
 ########################
 # Users modifications  #
 ########################

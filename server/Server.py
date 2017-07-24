@@ -13,6 +13,7 @@ import socketserver
 import datetime
 import builtins
 import hashlib
+import os
 import re
 
 import Securite
@@ -37,7 +38,7 @@ class ThreadedTCPRequestHandler(socketserver.BaseRequestHandler):
 
     def handle(self):
         """Fonction principale"""
-        logFile = open("logs", "a")
+        logFile = open(os.path.dirname(__file__)+"/logs", "a")
         builtins.sendHandler = self
         builtins.init = 1
         essai = 0
@@ -67,12 +68,12 @@ class ThreadedTCPRequestHandler(socketserver.BaseRequestHandler):
                 break
 
         while 1 and identify == 1:
-            suivi = open("suivi", "r")
+            suivi = open(os.path.dirname(__file__)+"/suivi", "r")
             nbUser = 0
             for ligne in suivi:
                 nbUser = int(ligne.strip())
             nbUser = nbUser+1
-            suivi = open("suivi", "w")
+            suivi = open(os.path.dirname(__file__)+"/suivi", "w")
             suivi.write(str(nbUser))
             suivi.close()
             dat = self.request.recv(1024).strip()
