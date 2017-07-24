@@ -52,7 +52,7 @@ class Monitor():
                 zomb += " "+str(self.stdout_list[i].decode())
         return zomb
 
-    def checkMail(self, addr):
+    def checkMail(self):
         """Fonction pour checker toutes les addresses mails de l'utilisateur"""
         res = Mail.checkGmail()
         return res

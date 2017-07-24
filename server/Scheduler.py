@@ -27,9 +27,9 @@ def checkSchedule():
             executeToday=True
         elif schedDay[6]=="s" and today.weekday()==6:
             executeToday=True
-        if executeToday and schedTime==today.hour
-        res=eval(func)
-        output=output.replace("%OUT%",res)
-        builtins.sendHandler.sendMsg("N",\
-                                     "notif;Planning;"+output)
+        if executeToday and schedTime==today.hour:
+            res=eval(func)
+            output=output.replace("%OUT%",res)
+            builtins.sendHandler.sendMsg("N",\
+                                         "notif;Planning;"+output)
     return "ok"

@@ -8,6 +8,7 @@ import time
 import builtins
 
 import Cerveau
+import Monitor
 import Securite
 import System
 import Reload
@@ -28,7 +29,7 @@ if __name__ == '__main__':
     SERVER_THREAD.start()
     print("initialisation réalisé en "+str(time.time()-STARTTIME)+"sec")
     print('Serving')
-    MON = System.MyMonitoringThread('Monitoring')
+    MON = Monitor.MyMonitoringThread('Monitoring')
     MON.start()
     REL = threading.Thread(None, Reload.verify, None)
     REL.start()

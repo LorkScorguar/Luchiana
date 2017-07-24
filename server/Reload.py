@@ -19,12 +19,14 @@ def verify():
     """Vérifie la date de dernière maj des modules et les recharge si besoin"""
     i = 0
     dateList = []
+    script_dir = os.path.dirname(__file__)
     while 1:
         fileList = ["Cerveau.py", "Database.py", "FileManager.py",\
         "Freebase.py", "GPIO.py", "Mail.py", "Math.py", "Monitor.py",\
         "Securite.py", "Server.py", "System.py", "Tankbot.py", "Web.py"]
         j = 0
         for file in fileList:
+            file=os.path.dirname(__file__)+"/"+file
             statbuf = os.stat(file)
             if i == 0:
                 ori = statbuf.st_mtime
