@@ -87,32 +87,12 @@ def analyse(phrase, username):
                 resOut, INFOS = eval(act)
                 ACTION = INFOS[0]
                 CODE = INFOS[1]
-            """listeMot = rep.split(" ")
-            #remplacement des %IN% et %OUT% dans la réponse
-            #si reponse directe
-            if typeAct != "python" or (typeAct == "python" and CODE == 0):
-                for i in range(len(listeMot)):
-                    if listeMot[i].strip() == "%OUT%":
-                        try:
-                            resOut = resOut.decode()
-                        except:
-                            resOut = resOut
-                        listeMot[i] = resOut.strip()
-                for i in range(len(listeMot)):
-                    if listeMot[i].strip() == "%IN%":
-                        listeMot[i] = resIn.strip()
-                rep = " ".join(listeMot)"""
-                try:
-                    resOut = resOut.decode()
-                except:
-                    resOut = resOut
-                rep = rep.replace("%IN%",resIn.strip())
-                rep = rep.replace("%OUT%",resOut.strip())
-            else:# si besoin de precision,  on affiche le resultat de la fonction
-                try:
-                    rep = resOut.decode()
-                except:
-                    rep = resOut
+            try:
+                resOut = resOut.decode()
+            except:
+                resOut = resOut
+            rep = rep.replace("%IN%",resIn.strip())
+            rep = rep.replace("%OUT%",resOut.strip())
             if ACTION == "fichier" and CODE == 0:
                 typ = "F"
             else:
